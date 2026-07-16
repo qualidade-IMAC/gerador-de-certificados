@@ -15,197 +15,197 @@
 
     <style>
         :root { 
-            --cor-imac-marrom: #5c3d2e; 
-            --cor-imac-dourado: #b45309;
-        }
-
-        @media screen {
-            body { background-color: #f3f4f6; }
-            #printArea { display: none; }
-        }
-
+        /* ===== ESTILOS PARA IMPRESSÃO (CERTIFICADOS) ===== */
         @media print {
-            @page { size: A4 landscape; margin: 0; }
-            body * { visibility: hidden; }
-            #printArea, #printArea * { visibility: visible; }
+            @page {
+                size: A4 landscape; /* Força A4 no modo paisagem */
+                margin: 0; /* Remove as margens padrão do navegador */
+            }
+            
+            /* Força o navegador a imprimir as cores de fundo (Crucial para funcionar) */
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            body * {
+                visibility: hidden; /* Esconde o painel de controle */
+            }
+            
+            #printArea, #printArea * {
+                visibility: visible; /* Mostra apenas a área de impressão */
+            }
             
             #printArea {
                 position: absolute;
-                left: 0; top: 0; width: 100%;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background-color: white;
             }
 
+            /* Configuração de cada página de certificado */
             .certificate-page {
-                width: 297mm; height: 210mm;
-                page-break-after: always;
+                width: 297mm;
+                height: 209mm;
+                page-break-after: always; /* Quebra de página após cada certificado */
                 break-after: page;
                 margin: 0;
+                padding: 15mm;
                 box-sizing: border-box;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                /* Fundo bege/marromzinho claro com os pãezinhos (forçado para impressão) */
+                background-color: #f7f3ed !important; 
+                background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 30 Q25 10 40 30 Q25 50 10 30 Z' fill='none' stroke='%23e0d0b8' stroke-width='2'/%3E%3Cpath d='M60 80 Q75 60 90 80 Q75 100 60 80 Z' fill='none' stroke='%23e0d0b8' stroke-width='2'/%3E%3Cpath d='M70 20 C70 5 95 5 95 20 C95 35 70 35 70 20 Z' fill='none' stroke='%23e0d0b8' stroke-width='2'/%3E%3Cpath d='M20 70 C10 70 10 90 20 90 C30 90 30 70 20 70 Z' fill='none' stroke='%23e0d0b8' stroke-width='2'/%3E%3C/svg%3E") !important;
+                background-size: 150px 150px !important;
                 position: relative;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                overflow: hidden;
             }
 
-            /* Fundo temático com pães */
-            .certificate-bg {
-                position: absolute;
-                top: 0; left: 0; right: 0; bottom: 0;
-                background-color: #e6d5c3; /* Fundo marromzinho/bege como no original */
-                /* Padrão SVG inline simulando pães e trigo com cor ajustada para combinar */
-                background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23ccaa8c' stroke-width='2' fill='none'%3E%3Cpath d='M10 30 Q25 10 40 30 Q25 50 10 30 Z'/%3E%3Cpath d='M60 80 Q75 60 90 80 Q75 100 60 80 Z'/%3E%3Cpath d='M70 20 C70 5 95 5 95 20 C95 35 70 35 70 20 Z'/%3E%3Cpath d='M20 70 C10 70 10 90 20 90 C30 90 30 70 20 70 Z'/%3E%3C/g%3E%3C/svg%3E");
-                background-size: 80px 80px;
-                z-index: 1;
+            /* Remove a quebra de página do último para não gerar folha em branco */
+            .certificate-page:last-child {
+                page-break-after: auto;
+                break-after: auto;
             }
 
-            /* Fundo enviado pelo usuário via upload */
-            .custom-bg {
-                position: absolute;
-                top: 0; left: 0; right: 0; bottom: 0;
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-                z-index: 1;
-            }
-
-            /* Caixa branca semi-transparente no centro */
-            .certificate-overlay {
-                background-color: rgba(255, 255, 255, 0.88);
-                width: 88%;
-                height: 88%;
+            /* Design visual do Certificado */
+            .certificate-border {
+                border: 2px solid #5c3d2e;
+                background-color: rgba(255, 255, 255, 0.96) !important; /* Fundo interno branco quase sólido */
+                padding: 6mm;
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
                 position: relative;
-                z-index: 10;
+            }
+
+            .certificate-inner {
+                border: 1px solid #5c3d2e;
+                width: 100%;
+                height: 100%;
+                padding: 30px;
+                box-sizing: border-box;
                 display: flex;
                 flex-direction: column;
+                justify-content: space-between;
                 align-items: center;
                 text-align: center;
-                padding: 15mm;
-                box-sizing: border-box;
-                box-shadow: 0 0 20px rgba(0,0,0,0.05);
+                position: relative;
+                z-index: 10;
             }
 
-            .logo-container {
-                margin-bottom: 5px;
+            /* Tipografia do Certificado */
+            .cert-header {
+                width: 100%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                margin-bottom: 10px;
             }
-            .logo-img { height: 50px; margin-bottom: 5px; object-fit: contain; }
-            .cnpj-text {
+
+            .cert-logo {
+                max-height: 60px;
+                max-width: 200px;
+                object-fit: contain;
+                margin-bottom: 5px;
+            }
+            
+            .cert-cnpj {
                 font-family: 'Montserrat', sans-serif;
-                font-size: 9px;
-                color: var(--cor-imac-marrom);
+                font-size: 10px;
+                color: #5c3d2e;
                 font-weight: 600;
                 line-height: 1.2;
             }
 
             .cert-title {
-                font-family: 'Lora', serif;
-                font-size: 40px;
+                font-family: 'Cinzel', serif;
+                font-size: 38px;
+                color: #5c3d2e;
                 font-weight: 700;
-                color: var(--cor-imac-marrom);
                 letter-spacing: 2px;
                 margin-top: 15px;
+                text-transform: uppercase;
             }
 
-            .cert-course {
-                font-family: 'Montserrat', sans-serif;
-                font-size: 15px;
-                font-weight: 700;
-                color: var(--cor-imac-marrom);
-                margin-top: 5px;
-            }
-
-            .cert-outorgado {
+            .cert-subtitle {
                 font-family: 'Montserrat', sans-serif;
                 font-size: 14px;
-                color: var(--cor-imac-marrom);
-                margin-top: 25px;
-                letter-spacing: 1px;
+                font-weight: 700;
+                color: #5c3d2e;
+                margin-bottom: 25px;
+                text-transform: uppercase;
             }
 
-            .cert-student {
-                font-family: 'Lora', serif;
-                font-size: 44px;
+            .cert-text {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 14px;
+                color: #5c3d2e;
+                line-height: 1.6;
+                text-transform: uppercase;
+            }
+
+            .cert-name {
+                font-family: 'Montserrat', sans-serif; 
+                font-size: 34px;
                 font-weight: 700;
-                color: var(--cor-imac-dourado); /* Cor laranja/dourada igual ao modelo */
-                margin: 15px 0;
+                color: #b45309; /* Laranja/Dourado do nome */
+                margin: 20px 0;
+                text-transform: uppercase;
+                min-width: 60%;
+                display: inline-block;
             }
 
             .cert-details {
                 font-family: 'Montserrat', sans-serif;
-                font-size: 15px;
-                color: var(--cor-imac-marrom);
+                font-size: 14px;
+                color: #5c3d2e;
+                margin-top: 20px;
+                text-transform: uppercase;
                 line-height: 1.6;
-                margin-top: 15px;
             }
 
-            .cert-signatures {
+            /* Área de Assinaturas */
+            .cert-footer {
                 width: 100%;
                 display: flex;
                 justify-content: space-between;
                 align-items: flex-end;
-                margin-top: auto;
+                margin-top: 30px;
                 padding: 0 10px;
             }
 
-            .sig-block {
+            .signature-box {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 width: 220px;
             }
 
-            .sig-line {
+            .signature-line {
                 width: 100%;
-                border-top: 1px solid var(--cor-imac-marrom);
+                border-top: 1px solid #5c3d2e;
                 margin-bottom: 5px;
             }
 
-            .sig-name {
+            .signature-name {
                 font-family: 'Montserrat', sans-serif;
-                font-size: 12px;
                 font-weight: 700;
-                color: var(--cor-imac-marrom);
+                font-size: 12px;
+                color: #5c3d2e;
             }
 
-            .sig-role {
+            .signature-role {
                 font-family: 'Montserrat', sans-serif;
                 font-size: 10px;
-                color: var(--cor-imac-marrom);
+                color: #5c3d2e;
             }
-
+            
             .sig-participant {
-                color: var(--cor-imac-dourado);
-            }
-
-            .back-title {
-                font-family: 'Lora', serif;
-                font-size: 28px;
-                font-weight: 700;
-                color: var(--cor-imac-marrom);
-                margin: 25px 0;
-                text-transform: uppercase;
-            }
-
-            .back-content {
-                font-family: 'Montserrat', sans-serif;
-                font-size: 12px;
-                color: var(--cor-imac-marrom);
-                text-align: left;
-                width: 90%;
-                line-height: 1.6;
-                margin: 0 auto;
-            }
-            
-            .back-content ul {
-                list-style-type: disc;
-                padding-left: 20px;
-            }
-            
-            .back-content li {
-                margin-bottom: 8px;
+                color: #b45309;
             }
         }
     </style>
@@ -324,13 +324,96 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
         });
 
         function generateAndPrint() {
+            // Pega os valores do formulário
             const namesText = document.getElementById('namesList').value;
-            const names = namesText.split('\n').map(n => n.trim()).filter(n => n.length > 0);
+            const introText = document.getElementById('introText').value;
+            const bodyText = document.getElementById('bodyText').value;
+            const dateText = document.getElementById('dateText').value;
+            const workloadText = document.getElementById('workloadText').value;
+            
+            const sig1Name = document.getElementById('sig1Name').value;
+            const sig1Role = document.getElementById('sig1Role').value;
+            const sig2Name = document.getElementById('sig2Name').value;
+            const sig2Role = document.getElementById('sig2Role').value;
+
+            // Limpa a lista de nomes (remove linhas vazias e espaços extras)
+            const names = namesText.split('\n')
+                                   .map(name => name.trim())
+                                   .filter(name => name.length > 0);
 
             if (names.length === 0) {
-                alert("Por favor, insira a lista de alunos.");
+                showError("Por favor, insira pelo menos um nome na lista.");
                 return;
             }
+
+            // Define a fonte da logo (Upload -> logo.png local)
+            const logoSrc = uploadedLogoBase64 || 'logo.png';
+
+            const printArea = document.getElementById('printArea');
+            printArea.innerHTML = ''; // Limpa certificados anteriores
+
+            // Gera o HTML para cada certificado
+            names.forEach(name => {
+                const certHTML = `
+                    <div class="certificate-page">
+                        <div class="certificate-border">
+                            <div class="certificate-inner">
+                                
+                                <div class="cert-header">
+                                    <img src="${logoSrc}" alt="Logo" class="cert-logo" onerror="this.src='https://placehold.co/200x80/f7f3ed/5c3d2e?text=IMAC+LOGO&font=Montserrat'">
+                                    <div class="cert-cnpj">IMAC Indústria de Massas Congeladas<br>CNPJ: 03.523.769/0001-82</div>
+                                </div>
+
+                                <div>
+                                    <h1 class="cert-title">CERTIFICADO</h1>
+                                    <p class="cert-subtitle">${introText}</p>
+                                </div>
+
+                                <div>
+                                    <p class="cert-text">OUTORGADO A</p>
+                                    <h2 class="cert-name">${name}</h2>
+                                    <div class="cert-details">
+                                        <p>REALIZADO NOS DIAS: ${dateText}.</p>
+                                        <p>${workloadText}.</p>
+                                    </div>
+                                </div>
+
+                                <div class="cert-footer">
+                                    ${sig1Name ? `
+                                    <div class="signature-box">
+                                        <div class="signature-line"></div>
+                                        <p class="signature-name">${sig1Name}</p>
+                                        <p class="signature-role">${sig1Role}</p>
+                                    </div>
+                                    ` : ''}
+                                    
+                                    <div class="signature-box">
+                                        <div class="signature-line"></div>
+                                        <p class="signature-name sig-participant">${name}</p>
+                                        <p class="signature-role sig-participant">Participante</p>
+                                    </div>
+                                    
+                                    ${sig2Name ? `
+                                    <div class="signature-box">
+                                        <div class="signature-line"></div>
+                                        <p class="signature-name">${sig2Name}</p>
+                                        <p class="signature-role">${sig2Role}</p>
+                                    </div>
+                                    ` : ''}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                `;
+                printArea.insertAdjacentHTML('beforeend', certHTML);
+            });
+
+            // Aguarda um momento para o DOM renderizar (e carregar imagens) antes de chamar a janela de impressão
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        }
 
             // Captura de Campos
             const courseTitle = document.getElementById('courseTitle').value;
