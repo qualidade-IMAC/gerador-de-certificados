@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Emissão de Certificados IMAC</title>
     
-    <!-- Tailwind CSS para o design do painel -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts para ficar igual ao PowerPoint -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -52,8 +50,7 @@
             .certificate-bg {
                 position: absolute;
                 top: 0; left: 0; right: 0; bottom: 0;
-                background-color: #e6d5c3; /* Fundo marromzinho/bege como no original */
-                /* Padrão SVG inline simulando pães e trigo com cor ajustada para combinar */
+                background-color: #e6d5c3; 
                 background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23a07850' stroke-width='2.5' fill='none' opacity='0.7'%3E%3Cpath d='M10 30 Q25 10 40 30 Q25 50 10 30 Z'/%3E%3Cpath d='M60 80 Q75 60 90 80 Q75 100 60 80 Z'/%3E%3Cpath d='M70 20 C70 5 95 5 95 20 C95 35 70 35 70 20 Z'/%3E%3Cpath d='M20 70 C10 70 10 90 20 90 C30 90 30 70 20 70 Z'/%3E%3C/g%3E%3C/svg%3E");
                 background-size: 80px 80px;
                 z-index: 1;
@@ -125,11 +122,12 @@
                 letter-spacing: 1px;
             }
 
+            /* FONT ALTERADA AQUI */
             .cert-student {
-                font-family: 'Lora', serif;
+                font-family: 'Monotype Corsiva', cursive;
                 font-size: 44px;
-                font-weight: 700;
-                color: var(--cor-imac-dourado); /* Cor laranja/dourada igual ao modelo */
+                font-weight: 400;
+                color: var(--cor-imac-dourado);
                 margin: 15px 0;
             }
 
@@ -215,14 +213,12 @@
     <div class="min-h-screen p-4 md:p-8 flex items-center justify-center">
         <div class="w-full max-w-6xl bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
             
-            <!-- Lado Esquerdo: Configurações -->
             <div class="w-full md:w-3/5 p-8 bg-slate-50 border-r border-slate-200 overflow-y-auto" style="max-height: 90vh;">
                 <div class="flex items-center gap-3 mb-6">
                     <h1 class="text-2xl font-bold text-[#5c3d2e]">Configuração do Certificado IMAC</h1>
                 </div>
 
                 <form class="space-y-5">
-                    <!-- Uploads -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Upload da Logo</label>
@@ -235,7 +231,6 @@
                         </div>
                     </div>
 
-                    <!-- Frente do Certificado -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Título do Curso</label>
                         <input type="text" id="courseTitle" value="CURSO: PADRÃO DE FORNEAMENTO DE PÃES, PÃES DE QUEIJO E SALGADOS" class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-1 focus:ring-[#5c3d2e] outline-none font-semibold text-sm">
@@ -265,7 +260,6 @@
                         </div>
                     </div>
 
-                    <!-- Verso do Certificado -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-1 mt-4 border-t pt-4">Conteúdo Programático (Verso)</label>
                         <p class="text-xs text-slate-500 mb-2">Cada linha será um item da lista. Separe os tópicos por "Enter".</p>
@@ -280,7 +274,6 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
                 </form>
             </div>
 
-            <!-- Lado Direito: Lista de Nomes e Botão -->
             <div class="w-full md:w-2/5 p-8 flex flex-col bg-white">
                 <label class="block text-sm font-bold text-slate-700 mb-2 uppercase">Lista de Alunos</label>
                 <p class="text-xs text-slate-500 mb-2">Cole um nome por linha. O sistema irá gerar a <strong>Frente</strong> e o <strong>Verso</strong> para cada um.</p>
@@ -298,7 +291,6 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
         </div>
     </div>
 
-    <!-- Área Oculta para Renderizar os Certificados -->
     <div id="printArea"></div>
 
     <script>
@@ -422,7 +414,6 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
                                 </ul>
                             </div>
                             
-                            <!-- Spacer flexível para empurrar o conteúdo pra cima se necessário -->
                             <div style="flex-grow: 1;"></div> 
                         </div>
                     </div>
