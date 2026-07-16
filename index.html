@@ -323,11 +323,27 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
             }
         });
 
+        function showMessage(msg) {
+            const container = document.createElement('div');
+            container.style.position = 'fixed';
+            container.style.bottom = '20px';
+            container.style.right = '20px';
+            container.style.backgroundColor = '#b45309';
+            container.style.color = '#fff';
+            container.style.padding = '12px 20px';
+            container.style.borderRadius = '8px';
+            container.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+            container.style.fontFamily = 'sans-serif';
+            container.style.zIndex = '9999';
+            container.innerText = msg;
+            document.body.appendChild(container);
+            setTimeout(() => container.remove(), 3000);
+        }
+
         function generateAndPrint() {
             // Pega os valores do formulário
             const namesText = document.getElementById('namesList').value;
-            const introText = document.getElementById('introText').value;
-            const bodyText = document.getElementById('bodyText').value;
+            const courseTitle = document.getElementById('courseTitle').value;
             const dateText = document.getElementById('dateText').value;
             const workloadText = document.getElementById('workloadText').value;
             
@@ -342,39 +358,53 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
                                    .filter(name => name.length > 0);
 
             if (names.length === 0) {
-                showError("Por favor, insira pelo menos um nome na lista.");
+                showMessage("Por favor, insira pelo menos um nome na lista.");
                 return;
             }
 
-            // Define a fonte da logo (Upload -> logo.png local)
-            const logoSrc = uploadedLogoBase64 || 'logo.png';
+            // Tratamento do conteúdo programático para criar os LIs
+            const programText = document.getElementById('programContent').value;
+            const programItems = programText.split('\n').filter(p => p.trim() !== '');
+            const ulContent = programItems.map(item => `<li style="text-align: left; margin-bottom: 8px;">${item}</li>`).join('');
+
+            // Imagens
+            const logoSrc = uploadedLogo || 'logo.png';
+            
+            // Se o usuário não enviou bg, usa o padrão do CSS
+            let bgStyle = '';
+            if (uploadedBg) {
+                bgStyle = `background-image: url('${uploadedBg}') !important; background-size: cover !important;`;
+            }
 
             const printArea = document.getElementById('printArea');
             printArea.innerHTML = ''; // Limpa certificados anteriores
 
             // Gera o HTML para cada certificado
             names.forEach(name => {
-                const certHTML = `
-                    <div class="certificate-page">
+                // --- PÁGINA 1: FRENTE ---
+                const frontPage = `
+                    <div class="certificate-page" style="${bgStyle}">
                         <div class="certificate-border">
                             <div class="certificate-inner">
                                 
-                                <div class="cert-header">
-                                    <img src="${logoSrc}" alt="Logo" class="cert-logo" onerror="this.src='https://placehold.co/200x80/f7f3ed/5c3d2e?text=IMAC+LOGO&font=Montserrat'">
-                                    <div class="cert-cnpj">IMAC Indústria de Massas Congeladas<br>CNPJ: 03.523.769/0001-82</div>
+                                <div class="cert-header" style="justify-content: center;">
+                                    <div style="display: flex; flex-direction: column; align-items: center;">
+                                        <img src="${logoSrc}" alt="Logo" class="cert-logo" onerror="this.src='https://placehold.co/200x80/f7f3ed/5c3d2e?text=IMAC+LOGO&font=Montserrat'">
+                                        <div class="cert-cnpj">IMAC Indústria de Massas Congeladas<br>CNPJ: 03.523.769/0001-82</div>
+                                    </div>
                                 </div>
 
                                 <div>
                                     <h1 class="cert-title">CERTIFICADO</h1>
-                                    <p class="cert-subtitle">${introText}</p>
+                                    <p class="cert-subtitle">${courseTitle}</p>
                                 </div>
 
                                 <div>
                                     <p class="cert-text">OUTORGADO A</p>
                                     <h2 class="cert-name">${name}</h2>
                                     <div class="cert-details">
-                                        <p>REALIZADO NOS DIAS: ${dateText}.</p>
-                                        <p>${workloadText}.</p>
+                                        <p>${dateText}</p>
+                                        <p>${workloadText}</p>
                                     </div>
                                 </div>
 
@@ -385,7 +415,7 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
                                         <p class="signature-name">${sig1Name}</p>
                                         <p class="signature-role">${sig1Role}</p>
                                     </div>
-                                    ` : ''}
+                                    ` : '<div class="signature-box"></div>'}
                                     
                                     <div class="signature-box">
                                         <div class="signature-line"></div>
@@ -399,92 +429,9 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
                                         <p class="signature-name">${sig2Name}</p>
                                         <p class="signature-role">${sig2Role}</p>
                                     </div>
-                                    ` : ''}
+                                    ` : '<div class="signature-box"></div>'}
                                 </div>
 
-                            </div>
-                        </div>
-                    </div>
-                `;
-                printArea.insertAdjacentHTML('beforeend', certHTML);
-            });
-
-            // Aguarda um momento para o DOM renderizar (e carregar imagens) antes de chamar a janela de impressão
-            setTimeout(() => {
-                window.print();
-            }, 500);
-        }
-
-            // Captura de Campos
-            const courseTitle = document.getElementById('courseTitle').value;
-            const dateText = document.getElementById('dateText').value;
-            const workloadText = document.getElementById('workloadText').value;
-            
-            const sig1Name = document.getElementById('sig1Name').value;
-            const sig1Role = document.getElementById('sig1Role').value;
-            const sig2Name = document.getElementById('sig2Name').value;
-            const sig2Role = document.getElementById('sig2Role').value;
-
-            // Tratamento do conteúdo programático para criar os LIs
-            const programText = document.getElementById('programContent').value;
-            const programItems = programText.split('\n').filter(p => p.trim() !== '');
-            const ulContent = programItems.map(item => `<li>${item}</li>`).join('');
-
-            // Imagens
-            const logoSrc = uploadedLogo || 'logo.png';
-            const bgDiv = uploadedBg 
-                ? `<div class="custom-bg" style="background-image: url('${uploadedBg}')"></div>` 
-                : `<div class="certificate-bg"></div>`;
-
-            // Bloco de cabeçalho padrão (usado na frente e no verso)
-            const headerHTML = `
-                <div class="logo-container">
-                    <img src="${logoSrc}" class="logo-img" alt="IMAC Logo" onerror="this.src='https://placehold.co/200x80/e6d5c3/5c3d2e?text=IMAC+LOGO&font=Montserrat'">
-                    <div class="cnpj-text text-center">IMAC Indústria de Massas Congeladas<br>CNPJ: 03.523.769/0001-82</div>
-                </div>
-            `;
-
-            const printArea = document.getElementById('printArea');
-            printArea.innerHTML = '';
-
-            names.forEach(name => {
-                
-                // --- PÁGINA 1: FRENTE ---
-                const frontPage = `
-                    <div class="certificate-page">
-                        ${bgDiv}
-                        <div class="certificate-overlay">
-                            ${headerHTML}
-                            
-                            <h1 class="cert-title">CERTIFICADO</h1>
-                            <h2 class="cert-course">${courseTitle}</h2>
-                            
-                            <p class="cert-outorgado">OUTORGADO A</p>
-                            <h3 class="cert-student">${name}</h3>
-                            
-                            <div class="cert-details">
-                                <p>${dateText}</p>
-                                <p>${workloadText}</p>
-                            </div>
-
-                            <div class="cert-signatures">
-                                <div class="sig-block">
-                                    <div class="sig-line"></div>
-                                    <p class="sig-name">${sig1Name}</p>
-                                    <p class="sig-role">${sig1Role}</p>
-                                </div>
-                                
-                                <div class="sig-block">
-                                    <div class="sig-line"></div>
-                                    <p class="sig-name sig-participant">${name}</p>
-                                    <p class="sig-role sig-participant">Participante</p>
-                                </div>
-
-                                <div class="sig-block">
-                                    <div class="sig-line"></div>
-                                    <p class="sig-name">${sig2Name}</p>
-                                    <p class="sig-role">${sig2Role}</p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -492,21 +439,27 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
 
                 // --- PÁGINA 2: VERSO (CONTEÚDO PROGRAMÁTICO) ---
                 const backPage = `
-                    <div class="certificate-page">
-                        ${bgDiv}
-                        <div class="certificate-overlay">
-                            ${headerHTML}
-                            
-                            <h2 class="back-title">Conteúdo Programático</h2>
-                            
-                            <div class="back-content">
-                                <ul>
-                                    ${ulContent}
-                                </ul>
+                    <div class="certificate-page" style="${bgStyle}">
+                        <div class="certificate-border">
+                            <div class="certificate-inner">
+                                
+                                <div class="cert-header" style="justify-content: center;">
+                                    <div style="display: flex; flex-direction: column; align-items: center;">
+                                        <img src="${logoSrc}" alt="Logo" class="cert-logo" onerror="this.src='https://placehold.co/200x80/f7f3ed/5c3d2e?text=IMAC+LOGO&font=Montserrat'">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h1 class="cert-title" style="font-size: 28px; margin-top: 0; margin-bottom: 20px;">CONTEÚDO PROGRAMÁTICO</h1>
+                                </div>
+
+                                <div style="flex-grow: 1; width: 100%; max-width: 800px; display: flex; flex-direction: column; justify-content: flex-start;">
+                                    <ul style="font-family: 'Montserrat', sans-serif; font-size: 12px; color: #5c3d2e; font-weight: 600; line-height: 1.6; list-style-type: disc; padding-left: 20px;">
+                                        ${ulContent}
+                                    </ul>
+                                </div>
+
                             </div>
-                            
-                            <!-- Spacer flexível para empurrar o conteúdo pra cima se necessário -->
-                            <div style="flex-grow: 1;"></div> 
                         </div>
                     </div>
                 `;
@@ -514,8 +467,10 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
                 printArea.insertAdjacentHTML('beforeend', frontPage + backPage);
             });
 
-            // Chama a impressão
-            setTimeout(() => { window.print(); }, 500);
+            // Aguarda um momento para o DOM renderizar (e carregar imagens) antes de chamar a janela de impressão
+            setTimeout(() => {
+                window.print();
+            }, 500);
         }
     </script>
 </body>
