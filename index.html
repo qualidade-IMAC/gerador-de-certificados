@@ -3,415 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Emissão de Certificados</title>
-    
-    <!-- Tailwind CSS para o design do painel -->
+    <title>Sistema de Emissão de Certificados IMAC</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts para um design moderno do certificado -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:ital,wght@0,400;0,600;0,700;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* ===== ESTILOS PARA TELA (PAINEL DE CONTROLE) ===== */
+        /* Cores do Tema IMAC */
+        :root { --cor-imac: #5c3d2e; }
+
         @media screen {
-            body { background-color: #f3f4f6; }
-            #printArea { display: none; } /* Esconde os certificados na tela normal */
-            
-            /* Custom Scrollbar */
-            ::-webkit-scrollbar { width: 8px; }
-            ::-webkit-scrollbar-track { background: #f1f1f1; }
-            ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
-            ::-webkit-scrollbar-thumb:hover { background: #555; }
+            body { background-color: #e5e7eb; }
+            #printArea { display: none; }
         }
 
-        /* ===== ESTILOS PARA IMPRESSÃO (CERTIFICADOS) ===== */
         @media print {
-            @page {
-                size: A4 landscape; /* Força A4 no modo paisagem */
-                margin: 0; /* Remove as margens padrão do navegador */
-            }
+            @page { size: A4 landscape; margin: 0; }
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
             
-            body * {
-                visibility: hidden; /* Esconde o painel de controle */
-            }
-            
-            #printArea, #printArea * {
-                visibility: visible; /* Mostra apenas a área de impressão */
-            }
-            
-            #printArea {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                background-color: white;
-            }
-
-            /* Configuração de cada página de certificado */
             .certificate-page {
-                width: 297mm;
-                height: 209mm;
-                page-break-after: always; /* Quebra de página após cada certificado */
-                break-after: page;
-                margin: 0;
-                padding: 15mm;
-                box-sizing: border-box;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background-color: #ffffff;
-                position: relative;
-                overflow: hidden;
+                width: 297mm; height: 210mm;
+                background-color: #f2e9e1; /* Cor de fundo do seu papel */
+                display: flex; align-items: center; justify-content: center;
+                padding: 10mm; box-sizing: border-box;
             }
 
-            /* Remove a quebra de página do último para não gerar folha em branco */
-            .certificate-page:last-child {
-                page-break-after: auto;
-                break-after: auto;
+            .cert-box {
+                width: 100%; height: 100%;
+                border: 2px solid var(--cor-imac);
+                padding: 5mm;
+                display: flex; align-items: center; justify-content: center;
             }
 
-            /* Design visual do Certificado */
-            .certificate-border {
-                border: 2px solid #cbd5e1;
-                padding: 8mm;
-                width: 100%;
-                height: 100%;
-                box-sizing: border-box;
-                position: relative;
+            .cert-inner {
+                width: 100%; height: 100%;
+                border: 1px solid var(--cor-imac);
+                display: flex; flex-direction: column; align-items: center;
+                color: var(--cor-imac); position: relative;
             }
 
-            .certificate-inner {
-                border: 1px solid #e2e8f0;
-                width: 100%;
-                height: 100%;
-                padding: 40px;
-                box-sizing: border-box;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                align-items: center;
-                text-align: center;
-                position: relative;
-                z-index: 10;
-            }
+            .logo-header { margin-top: 30px; text-align: center; }
+            .logo-img { height: 60px; margin-bottom: 5px; }
+            .cnpj { font-family: 'Montserrat', sans-serif; font-size: 10px; }
 
-            /* Marcas d'água / Grafismos de fundo */
-            .bg-pattern {
-                position: absolute;
-                top: 0; left: 0; right: 0; bottom: 0;
-                opacity: 0.03;
-                background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0 L100 50 L50 100 L0 50 Z" fill="%23000"/></svg>');
-                background-size: 50px 50px;
-                z-index: 1;
-            }
+            .titulo { font-family: 'Cinzel', serif; font-size: 48px; font-weight: 700; margin-top: 20px; }
+            .subtitulo { font-family: 'Montserrat', sans-serif; font-size: 16px; margin-top: 10px; letter-spacing: 2px; }
+            .outorgado { font-family: 'Montserrat', sans-serif; font-size: 14px; margin-top: 30px; }
+            .nome-aluno { font-family: 'Playfair Display', serif; font-style: italic; font-size: 55px; margin: 20px 0; border-bottom: 1px solid var(--cor-imac); padding: 0 40px; }
+            
+            .info-curso { font-family: 'Montserrat', sans-serif; font-size: 18px; margin-top: 20px; text-align: center; line-height: 1.5; }
 
-            /* Tipografia do Certificado */
-            .cert-header {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                margin-bottom: 20px;
+            .footer-assinaturas {
+                margin-top: auto; margin-bottom: 50px;
+                width: 80%; display: flex; justify-content: space-between;
             }
-
-            .cert-logo {
-                max-height: 80px;
-                max-width: 200px;
-                object-fit: contain;
-            }
-
-            .cert-title {
-                font-family: 'Cinzel', serif;
-                font-size: 42px;
-                color: #1e293b;
-                letter-spacing: 4px;
-                margin-top: 20px;
-                text-transform: uppercase;
-            }
-
-            .cert-subtitle {
-                font-family: 'Montserrat', sans-serif;
-                font-size: 18px;
-                color: #64748b;
-                letter-spacing: 6px;
-                margin-bottom: 40px;
-            }
-
-            .cert-text {
-                font-family: 'Montserrat', sans-serif;
-                font-size: 20px;
-                color: #334155;
-                line-height: 1.6;
-                max-width: 80%;
-            }
-
-            .cert-name {
-                font-family: 'Pinyon Script', cursive; /* Fonte cursiva elegante para o nome */
-                font-size: 64px;
-                color: #0f172a;
-                margin: 20px 0;
-                border-bottom: 1px solid #cbd5e1;
-                padding-bottom: 5px;
-                min-width: 60%;
-                display: inline-block;
-            }
-
-            .cert-details {
-                font-family: 'Montserrat', sans-serif;
-                font-size: 16px;
-                color: #475569;
-                margin-top: 30px;
-                font-weight: 600;
-            }
-
-            /* Área de Assinaturas */
-            .cert-footer {
-                width: 100%;
-                display: flex;
-                justify-content: space-around;
-                align-items: flex-end;
-                margin-top: 40px;
-                padding: 0 40px;
-            }
-
-            .signature-box {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 250px;
-            }
-
-            .signature-line {
-                width: 100%;
-                border-top: 1px solid #1e293b;
-                margin-bottom: 10px;
-            }
-
-            .signature-name {
-                font-family: 'Montserrat', sans-serif;
-                font-weight: 700;
-                font-size: 14px;
-                color: #1e293b;
-                text-transform: uppercase;
-            }
-
-            .signature-role {
-                font-family: 'Montserrat', sans-serif;
-                font-size: 12px;
-                color: #64748b;
-            }
+            .assinatura { text-align: center; width: 250px; }
+            .linha-assinatura { border-top: 1px solid var(--cor-imac); margin-bottom: 5px; }
+            .nome-assinatura { font-weight: 700; font-size: 12px; }
+            .cargo { font-size: 10px; }
         }
     </style>
 </head>
-<body class="text-slate-800 antialiased font-sans">
+<body class="p-4">
 
-    <!-- ===== PAINEL DE CONTROLE (Visível apenas na tela) ===== -->
-    <div class="min-h-screen p-4 md:p-8 flex items-center justify-center">
-        <div class="w-full max-w-5xl bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
-            
-            <!-- Lado Esquerdo: Configurações -->
-            <div class="w-full md:w-1/2 p-8 bg-slate-50 border-r border-slate-200">
-                <div class="flex items-center gap-3 mb-6">
-                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                    <h1 class="text-2xl font-bold text-slate-800">Gerador de Certificados</h1>
-                </div>
-
-                <form id="certForm" class="space-y-5">
-                    
-                    <!-- Upload de Logo -->
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">Logo do Certificado (Opcional)</label>
-                        <input type="file" id="logoInput" accept="image/*" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-colors">
-                        <p class="text-xs text-slate-500 mt-1">Se não enviar, tentará usar "logo.png" da mesma pasta.</p>
-                    </div>
-
-                    <!-- Texto Principal -->
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">Texto de Introdução</label>
-                        <input type="text" id="introText" value="Certificamos que" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1">Motivo / Descrição do Evento</label>
-                        <textarea id="bodyText" rows="2" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">concluiu com êxito sua participação, demonstrando grande comprometimento e dedicação no período de 06 a 10.04.2026.</textarea>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">Local e Data de Emissão</label>
-                            <input type="text" id="dateText" value="Eusébio - CE, 10 de Abril de 2026" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">Carga Horária</label>
-                            <input type="text" id="workloadText" value="Carga Horária: 40 horas" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-                        </div>
-                    </div>
-
-                    <!-- Assinaturas -->
-                    <div class="grid grid-cols-2 gap-4 pt-2 border-t border-slate-200">
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">Assinatura 1 (Nome)</label>
-                            <input type="text" id="sig1Name" value="Nome do Diretor" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-sm mb-2">
-                            <input type="text" id="sig1Role" value="Diretor Geral" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1">Assinatura 2 (Nome)</label>
-                            <input type="text" id="sig2Name" value="Aline Cardoso de Carvalho" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-sm mb-2">
-                            <input type="text" id="sig2Role" value="Coordenação" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-sm">
-                        </div>
-                    </div>
-                </form>
+    <!-- PAINEL -->
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+        <h1 class="text-2xl font-bold text-[#5c3d2e] mb-6">Configurar Certificados IMAC</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-xs font-bold text-gray-700 uppercase">Logo</label>
+                <input type="file" id="logoInput" class="w-full mt-2 p-2 border rounded">
+                <input type="text" id="tituloCurso" value="CURSO: PADRÃO DE FORNEAMENTO DE PÃES, PÃES DE QUEIJO E SALGADOS" class="w-full mt-4 p-2 border rounded">
+                <input type="text" id="datas" value="REALIZADO NOS DIAS: 6 à 10 DE ABRIL DE 2026." class="w-full mt-2 p-2 border rounded">
+                <input type="text" id="carga" value="CARGA HORÁRIA: 40 HORAS." class="w-full mt-2 p-2 border rounded">
             </div>
-
-            <!-- Lado Direito: Lista de Nomes e Ação -->
-            <div class="w-full md:w-1/2 p-8 flex flex-col">
-                <label class="block text-sm font-bold text-slate-700 mb-2">Lista de Nomes (Um por linha)</label>
-                <div class="flex-grow flex flex-col mb-4">
-                    <textarea id="namesList" class="flex-grow w-full p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none font-medium text-slate-700" placeholder="Ex:&#10;João Silva&#10;Maria Santos&#10;Aline Cardoso de Carvalho"></textarea>
-                </div>
-                
-                <div class="bg-blue-50 p-4 rounded-xl mb-6 text-sm text-blue-800">
-                    <p class="font-semibold mb-1">Instruções:</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                        <li>Cole a lista de nomes acima.</li>
-                        <li>Na tela de impressão, certifique-se de que o <strong>Layout</strong> está como <strong>Paisagem (Landscape)</strong>.</li>
-                        <li>Desmarque opções como "Cabeçalhos e rodapés" para um visual limpo.</li>
-                    </ul>
-                </div>
-
-                <button onclick="generateAndPrint()" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                    Gerar e Imprimir Certificados
-                </button>
+            <div>
+                <label class="block text-xs font-bold text-gray-700 uppercase">Lista de Nomes</label>
+                <textarea id="namesList" rows="6" class="w-full mt-2 p-2 border rounded" placeholder="Um nome por linha"></textarea>
             </div>
-
         </div>
+        <button onclick="gerar()" class="w-full mt-6 bg-[#5c3d2e] text-white py-3 rounded font-bold hover:bg-opacity-90">GERAR E IMPRIMIR</button>
     </div>
 
-    <!-- Mensagem de Erro (Modal/Toast simulado) -->
-    <div id="errorMessage" class="fixed bottom-5 right-5 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg transform transition-transform translate-y-20 opacity-0 flex items-center gap-2 font-medium z-50">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <span id="errorText">Erro</span>
-    </div>
-
-    <!-- ===== ÁREA DE IMPRESSÃO (Onde os certificados serão injetados) ===== -->
+    <!-- ÁREA DE IMPRESSÃO -->
     <div id="printArea"></div>
 
     <script>
-        // Variável para armazenar a imagem caso o usuário faça upload
-        let uploadedLogoBase64 = null;
+        let logoBase64 = "https://placehold.co/200x60/5c3d2e/white?text=IMAC+LOGO";
+        document.getElementById('logoInput').onchange = (e) => {
+            const reader = new FileReader();
+            reader.onload = (ev) => logoBase64 = ev.target.result;
+            reader.readAsDataURL(e.target.files[0]);
+        };
 
-        // Lida com o upload da logo
-        document.getElementById('logoInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    uploadedLogoBase64 = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                uploadedLogoBase64 = null;
-            }
-        });
-
-        function showError(message) {
-            const errorEl = document.getElementById('errorMessage');
-            document.getElementById('errorText').innerText = message;
-            errorEl.style.transform = 'translateY(0)';
-            errorEl.style.opacity = '1';
-            
-            setTimeout(() => {
-                errorEl.style.transform = 'translateY(20px)';
-                errorEl.style.opacity = '0';
-            }, 4000);
-        }
-
-        function generateAndPrint() {
-            // Pega os valores do formulário
-            const namesText = document.getElementById('namesList').value;
-            const introText = document.getElementById('introText').value;
-            const bodyText = document.getElementById('bodyText').value;
-            const dateText = document.getElementById('dateText').value;
-            const workloadText = document.getElementById('workloadText').value;
-            
-            const sig1Name = document.getElementById('sig1Name').value;
-            const sig1Role = document.getElementById('sig1Role').value;
-            const sig2Name = document.getElementById('sig2Name').value;
-            const sig2Role = document.getElementById('sig2Role').value;
-
-            // Limpa a lista de nomes (remove linhas vazias e espaços extras)
-            const names = namesText.split('\n')
-                                   .map(name => name.trim())
-                                   .filter(name => name.length > 0);
-
-            if (names.length === 0) {
-                showError("Por favor, insira pelo menos um nome na lista.");
-                return;
-            }
-
-            // Define a fonte da logo (Upload -> logo.png local)
-            const logoSrc = uploadedLogoBase64 || './logo.png';
-
+        function gerar() {
+            const names = document.getElementById('namesList').value.split('\n').filter(n => n.trim());
             const printArea = document.getElementById('printArea');
-            printArea.innerHTML = ''; // Limpa certificados anteriores
-
-            // Gera o HTML para cada certificado
+            printArea.innerHTML = '';
+            
             names.forEach(name => {
-                const certHTML = `
-                    <div class="certificate-page">
-                        <div class="certificate-border">
-                            <div class="bg-pattern"></div>
-                            <div class="certificate-inner">
-                                
-                                <div class="cert-header">
-                                    <img src="${logoSrc}" alt="Logo" class="cert-logo" onerror="this.style.display='none'">
-                                    <div style="width: 200px;"></div> <!-- Spacer para centralizar o título dependendo do layout -->
+                printArea.innerHTML += `
+                <div class="certificate-page">
+                    <div class="cert-box">
+                        <div class="cert-inner">
+                            <div class="logo-header">
+                                <img src="${logoBase64}" class="logo-img">
+                                <div class="cnpj">IMAC Indústria de Massas Congeladas<br>CNPJ: 03.523.769/0001-82</div>
+                            </div>
+                            <div class="titulo">CERTIFICADO</div>
+                            <div class="subtitulo">${document.getElementById('tituloCurso').value}</div>
+                            <div class="outorgado">OUTORGADO A</div>
+                            <div class="nome-aluno">${name}</div>
+                            <div class="info-curso">
+                                ${document.getElementById('datas').value}<br>
+                                ${document.getElementById('carga').value}
+                            </div>
+                            <div class="footer-assinaturas">
+                                <div class="assinatura">
+                                    <div class="linha-assinatura"></div>
+                                    <div class="nome-assinatura">JOSÉ DE SOUSA BARROS</div>
+                                    <div class="cargo">Técnico de Panificação – IMAC Congelados</div>
                                 </div>
-
-                                <div>
-                                    <h1 class="cert-title">Certificado de Participação</h1>
-                                    <p class="cert-subtitle">CONFERIDO A</p>
+                                <div class="assinatura">
+                                    <div class="linha-assinatura"></div>
+                                    <div class="nome-assinatura">THALITA LELIS</div>
+                                    <div class="cargo">Gerente Industrial – IMAC Congelados</div>
                                 </div>
-
-                                <div>
-                                    <p class="cert-text">${introText}</p>
-                                    <h2 class="cert-name">${name}</h2>
-                                    <p class="cert-text">${bodyText}</p>
-                                    <p class="cert-details">${workloadText} &nbsp;&bull;&nbsp; ${dateText}</p>
-                                </div>
-
-                                <div class="cert-footer">
-                                    ${sig1Name ? `
-                                    <div class="signature-box">
-                                        <div class="signature-line"></div>
-                                        <p class="signature-name">${sig1Name}</p>
-                                        <p class="signature-role">${sig1Role}</p>
-                                    </div>
-                                    ` : ''}
-                                    
-                                    ${sig2Name ? `
-                                    <div class="signature-box">
-                                        <div class="signature-line"></div>
-                                        <p class="signature-name">${sig2Name}</p>
-                                        <p class="signature-role">${sig2Role}</p>
-                                    </div>
-                                    ` : ''}
-                                </div>
-
                             </div>
                         </div>
                     </div>
-                `;
-                printArea.insertAdjacentHTML('beforeend', certHTML);
+                </div>`;
             });
-
-            // Aguarda um momento para o DOM renderizar (e carregar imagens) antes de chamar a janela de impressão
-            setTimeout(() => {
-                window.print();
-            }, 500);
+            window.print();
         }
     </script>
 </body>
