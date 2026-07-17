@@ -36,12 +36,14 @@
 
         @media print {
             @page { size: A4 landscape; margin: 0; }
-            body * { visibility: hidden; }
-            #printArea, #printArea * { visibility: visible; }
+            
+            /* Oculta completamente a interface para não sobrar espaços em branco invisíveis */
+            body > *:not(#printArea):not(script) { display: none !important; }
             
             #printArea {
-                position: absolute;
-                left: 0; top: 0; width: 100%;
+                display: block;
+                position: relative;
+                width: 100%;
             }
 
             .certificate-page {
@@ -56,6 +58,12 @@
                 position: relative;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
+            }
+
+            /* Correção: Evita que a última página puxe uma folha extra em branco */
+            .certificate-page:last-child {
+                page-break-after: auto;
+                break-after: auto;
             }
 
             /* Fundo temático com pães */
