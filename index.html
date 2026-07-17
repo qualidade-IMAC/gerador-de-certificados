@@ -224,10 +224,70 @@
                 margin-bottom: 8px;
             }
         }
+
+        /* --- ESTILOS DO SPLASH SCREEN --- */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            background-color: var(--cor-imac-fundo);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        
+        /* Garante que o splash screen nunca saia na impressão caso alguém imprima rápido demais */
+        @media print {
+            #splash-screen { display: none !important; }
+        }
+        
+        #splash-screen.hide-splash {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .splash-logo {
+            width: 250px;
+            max-width: 80vw;
+            animation: pulse 2s infinite ease-in-out;
+            object-fit: contain;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .loading-dots:after {
+            content: ' .';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { color: rgba(0,0,0,0); text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+            40% { color: var(--cor-imac-marrom); text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+            60% { text-shadow: .25em 0 0 var(--cor-imac-marrom), .5em 0 0 rgba(0,0,0,0); }
+            80%, 100% { text-shadow: .25em 0 0 var(--cor-imac-marrom), .5em 0 0 var(--cor-imac-marrom); }
+        }
     </style>
 </head>
 
 <body class="text-slate-800 antialiased font-sans min-h-screen flex flex-col">
+
+    <!-- Splash Screen (Tela de Abertura) -->
+    <div id="splash-screen">
+        <!-- O src aponta para o logo.png que você mencionou -->
+        <img src="logo.png" alt="IMAC Logo" class="splash-logo" onerror="this.src='https://placehold.co/300x120/fdfbf9/5c3d2e?text=IMAC+LOGO&font=Montserrat'">
+        <div class="mt-8 flex flex-col items-center gap-2">
+            <!-- Spinner -->
+            <svg class="animate-spin h-8 w-8 text-[#b45309]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="text-[#5c3d2e] font-bold text-sm tracking-widest uppercase mt-4">
+                Inicializando Sistema<span class="loading-dots"></span>
+            </p>
+        </div>
+    </div>
 
     <!-- Notificação Customizada (Toast) -->
     <div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-xl font-bold opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center gap-2">
@@ -535,6 +595,21 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras e quiches
             // Chama a impressão após dar tempo para o DOM renderizar
             setTimeout(() => { window.print(); }, 500);
         }
+
+        // Evento de load da página para controlar o Splash Screen
+        window.addEventListener('load', () => {
+            // Mantém a tela de abertura por 3.5 segundos
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                // Adiciona a classe que faz a transição (fade out suave)
+                splash.classList.add('hide-splash');
+                
+                // Oculta completamente após a animação de fade (0.8s) para liberar os cliques na tela
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                }, 800);
+            }, 3500);
+        });
     </script>
 </body>
 </html>
