@@ -9,16 +9,28 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Adicionando novas fontes elegantes para o certificado -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;1,600&family=Great+Vibes&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 
     <style>
         :root { 
             --cor-imac-marrom: #5c3d2e; 
             --cor-imac-dourado: #b45309;
+            --cor-imac-fundo: #fdfbf9;
         }
 
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--cor-imac-fundo);
+        }
+
+        /* Estilização da barra de rolagem para um visual mais limpo */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
         @media screen {
-            body { background-color: #f3f4f6; }
             #printArea { display: none; }
         }
 
@@ -66,9 +78,8 @@
                 z-index: 1;
             }
 
-            /* Caixa branca semi-transparente no centro */
+            /* Caixa semi-transparente no centro (A cor é definida via JS agora) */
             .certificate-overlay {
-                background-color: rgba(255, 255, 255, 0.60);
                 width: 88%;
                 height: 88%;
                 position: relative;
@@ -79,7 +90,7 @@
                 text-align: center;
                 padding: 15mm;
                 box-sizing: border-box;
-                box-shadow: 0 0 20px rgba(0,0,0,0.05);
+                box-shadow: 0 0 25px rgba(0,0,0,0.1);
             }
 
             .logo-container {
@@ -122,9 +133,8 @@
                 letter-spacing: 1px;
             }
 
-            /* FONT ALTERADA AQUI */
+            /* A FONTE DO ALUNO AGORA É DINÂMICA VIA JS */
             .cert-student {
-                font-family: 'Monotype Corsiva', cursive;
                 font-size: 44px;
                 font-weight: 400;
                 color: var(--cor-imac-dourado);
@@ -208,94 +218,172 @@
         }
     </style>
 </head>
-<body class="text-slate-800 antialiased font-sans">
 
-    <div class="min-h-screen p-4 md:p-8 flex items-center justify-center">
-        <div class="w-full max-w-6xl bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
+<body class="text-slate-800 antialiased font-sans min-h-screen flex flex-col">
+
+    <!-- Notificação Customizada (Toast) -->
+    <div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-xl font-bold opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        <span id="toastMessage">Mensagem</span>
+    </div>
+
+    <!-- Header do Sistema -->
+    <header class="bg-white shadow-sm border-b border-slate-200 py-4 px-6 md:px-12 flex items-center justify-between sticky top-0 z-40">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#5c3d2e] rounded-lg flex items-center justify-center shadow-md">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+            </div>
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold text-[#5c3d2e] leading-tight">Certificados IMAC</h1>
+                <p class="text-xs text-slate-500 font-medium">Sistema Gerador de Diplomas</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow p-4 md:p-8 flex items-start justify-center">
+        <div class="w-full max-w-7xl flex flex-col lg:flex-row gap-6">
             
-            <div class="w-full md:w-3/5 p-8 bg-slate-50 border-r border-slate-200 overflow-y-auto" style="max-height: 90vh;">
-                <div class="flex items-center gap-3 mb-6">
-                    <h1 class="text-2xl font-bold text-[#5c3d2e]">Configuração do Certificado IMAC</h1>
+            <!-- Coluna da Esquerda: Configurações -->
+            <div class="w-full lg:w-2/3 space-y-6">
+                
+                <!-- Sessão: Design & Estilo -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-[#5c3d2e] mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-[#b45309]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                        Design & Aparência
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                        <!-- Imagens -->
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Logo do Certificado</label>
+                                <div class="relative">
+                                    <input type="file" id="logoInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-slate-100 file:text-[#5c3d2e] file:font-semibold hover:file:bg-slate-200 transition-colors border border-slate-200 rounded-lg p-1">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Fundo (Background)</label>
+                                <input type="file" id="bgInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-slate-100 file:text-[#b45309] file:font-semibold hover:file:bg-slate-200 transition-colors border border-slate-200 rounded-lg p-1">
+                                <p class="text-[10px] text-slate-400 mt-1">Deixe vazio para usar o fundo temático padrão.</p>
+                            </div>
+                        </div>
+
+                        <!-- Estilos Dinâmicos (Novidade) -->
+                        <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Cor da Caixa Translúcida</label>
+                                <select id="overlayColor" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#5c3d2e] bg-white cursor-pointer transition-shadow">
+                                    <option value="rgba(255, 255, 255, 0.70)">Branco (Padrão)</option>
+                                    <option value="rgba(242, 234, 226, 0.85)">Marrom Claro (Estilo IMAC)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Fonte do Nome do Aluno</label>
+                                <select id="studentFont" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-lg outline-none focus:ring-2 focus:ring-[#5c3d2e] bg-white cursor-pointer transition-shadow">
+                                    <option value="'Monotype Corsiva', cursive" style="font-family: 'Monotype Corsiva', cursive;">Monotype Corsiva (Clássica)</option>
+                                    <option value="'Playfair Display', serif" style="font-family: 'Playfair Display', serif;">Playfair Display</option>
+                                    <option value="'Great Vibes', cursive" style="font-family: 'Great Vibes', cursive;">Great Vibes</option>
+                                    <option value="'Dancing Script', cursive" style="font-family: 'Dancing Script', cursive;">Dancing Script</option>
+                                    <option value="'Lora', serif" style="font-family: 'Lora', serif;">Lora</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <form class="space-y-5">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                <!-- Sessão: Dados do Curso -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-[#5c3d2e] mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-[#b45309]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Dados do Curso
+                    </h2>
+                    
+                    <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Upload da Logo</label>
-                            <input type="file" id="logoInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-[#5c3d2e] file:text-white hover:file:bg-opacity-90">
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Título do Curso</label>
+                            <input type="text" id="courseTitle" value="CURSO: PADRÃO DE FORNEAMENTO DE PÃES, PÃES DE QUEIJO E SALGADOS" class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#b45309] outline-none font-semibold text-sm transition-shadow">
                         </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Dias de Realização</label>
+                                <input type="text" id="dateText" value="REALIZADO NOS DIAS: 14 à 17 DE JULHO DE 2026." class="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#5c3d2e] transition-shadow">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Carga Horária</label>
+                                <input type="text" id="workloadText" value="CARGA HORÁRIA: 40 HORAS." class="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#5c3d2e] transition-shadow">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Assinatura Esquerda</label>
+                                <input type="text" id="sig1Name" value="José de Sousa Barros" placeholder="Nome" class="w-full px-3 py-2 border border-slate-300 rounded text-sm mb-2 focus:ring-2 focus:ring-[#5c3d2e] outline-none transition-shadow">
+                                <input type="text" id="sig1Role" value="Técnico de Panificação – IMAC Congelados" placeholder="Cargo" class="w-full px-3 py-2 border border-slate-300 rounded text-xs focus:ring-2 focus:ring-[#5c3d2e] outline-none transition-shadow">
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Assinatura Direita</label>
+                                <input type="text" id="sig2Name" value="Thalita Lelis" placeholder="Nome" class="w-full px-3 py-2 border border-slate-300 rounded text-sm mb-2 focus:ring-2 focus:ring-[#5c3d2e] outline-none transition-shadow">
+                                <input type="text" id="sig2Role" value="Gerente Industrial – IMAC Congelados" placeholder="Cargo" class="w-full px-3 py-2 border border-slate-300 rounded text-xs focus:ring-2 focus:ring-[#5c3d2e] outline-none transition-shadow">
+                            </div>
+                        </div>
+
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Imagem de Fundo (Opcional)</label>
-                            <input type="file" id="bgInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-[#b45309] file:text-white hover:file:bg-opacity-90">
-                            <p class="text-[10px] text-slate-500 mt-1">Se vazio, usará o fundo de pães padrão.</p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Título do Curso</label>
-                        <input type="text" id="courseTitle" value="CURSO: PADRÃO DE FORNEAMENTO DE PÃES, PÃES DE QUEIJO E SALGADOS" class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-1 focus:ring-[#5c3d2e] outline-none font-semibold text-sm">
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Dias de Realização</label>
-                            <input type="text" id="dateText" value="REALIZADO NOS DIAS: 6 à 10 DE ABRIL DE 2026." class="w-full px-3 py-2 border border-slate-300 rounded text-sm outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Carga Horária</label>
-                            <input type="text" id="workloadText" value="CARGA HORÁRIA: 40 HORAS." class="w-full px-3 py-2 border border-slate-300 rounded text-sm outline-none">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-white p-3 rounded border border-slate-200">
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Assinatura Esquerda</label>
-                            <input type="text" id="sig1Name" value="José de Sousa Barros" class="w-full px-2 py-1 border border-slate-300 rounded text-xs mb-2">
-                            <input type="text" id="sig1Role" value="Técnico de Panificação – IMAC Congelados" class="w-full px-2 py-1 border border-slate-300 rounded text-xs">
-                        </div>
-                        <div class="bg-white p-3 rounded border border-slate-200">
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Assinatura Direita</label>
-                            <input type="text" id="sig2Name" value="Thalita Lelis" class="w-full px-2 py-1 border border-slate-300 rounded text-xs mb-2">
-                            <input type="text" id="sig2Role" value="Gerente Industrial – IMAC Congelados" class="w-full px-2 py-1 border border-slate-300 rounded text-xs">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1 mt-4 border-t pt-4">Conteúdo Programático (Verso)</label>
-                        <p class="text-xs text-slate-500 mb-2">Cada linha será um item da lista. Separe os tópicos por "Enter".</p>
-                        <textarea id="programContent" rows="6" class="w-full px-3 py-2 border border-slate-300 rounded text-sm outline-none resize-none">Técnicas de fermentação e modelagem: telamento, tempo de degelo e fermentação, modelagem e adição de coberturas quando necessário, cortes característicos do produto;
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1 mt-2">Conteúdo Programático (Verso)</label>
+                            <p class="text-[11px] text-slate-500 mb-2">Cada linha será um item da lista (bullet point). Separe os tópicos com a tecla "Enter".</p>
+                            <textarea id="programContent" rows="5" class="w-full px-4 py-3 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#5c3d2e] resize-y transition-shadow">Técnicas de fermentação e modelagem: telamento, tempo de degelo e fermentação, modelagem e adição de coberturas quando necessário, cortes característicos do produto;
 Assamento de produtos: manuseio de forno, controle de temperatura e de tempo;
 Frituras: manuseio de fritadeira industrial elétrica, controle de temperatura e de tempo;
 Pães tradicionais: pão francês, pão francês leve, pão francês milho, baguetes, pão hot dog, pães hambúrgueres, pão de coco;
 Pães especiais: pão rústico com vinho, pão vegano, pão australiano, pão andino, baguete tomate seco e etc;
 Pães de queijo: coquetel, lanche e chipa;
-Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha de frango, risole de carne, croquete calabresa e enroladinho de salsicha) e quiches salgadas.</textarea>
+Salgados: croissants com e sem recheio, folhados com recheio, frituras e quiches salgadas.</textarea>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
 
-            <div class="w-full md:w-2/5 p-8 flex flex-col bg-white">
-                <label class="block text-sm font-bold text-slate-700 mb-2 uppercase">Lista de Alunos</label>
-                <p class="text-xs text-slate-500 mb-2">Cole um nome por linha. O sistema irá gerar a <strong>Frente</strong> e o <strong>Verso</strong> para cada um.</p>
-                
-                <div class="flex-grow flex flex-col mb-6">
-                    <textarea id="namesList" class="flex-grow w-full p-4 border-2 border-slate-200 rounded-xl focus:border-[#b45309] outline-none resize-none font-medium text-slate-700" placeholder="Aline Cardoso de Carvalho&#10;João da Silva&#10;Maria Santos"></textarea>
-                </div>
+            <!-- Coluna da Direita: Lista de Alunos e Botão de Ação -->
+            <div class="w-full lg:w-1/3">
+                <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-t-[#b45309] sticky top-24">
+                    <h2 class="text-lg font-bold text-[#5c3d2e] mb-1 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-[#b45309]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        Lista de Alunos
+                    </h2>
+                    <p class="text-xs text-slate-500 mb-4">Cole um nome por linha. O sistema gerará a frente e o verso automaticamente para cada um.</p>
+                    
+                    <div class="flex-grow flex flex-col mb-6">
+                        <textarea id="namesList" rows="12" class="w-full p-4 border-2 border-slate-200 rounded-xl focus:border-[#b45309] focus:ring-4 focus:ring-orange-50 outline-none resize-none font-medium text-slate-700 transition-all leading-relaxed" placeholder="Exemplo:&#10;Francisca Lisonete Alves de Lima&#10;Aline Cardoso de Carvalho&#10;João da Silva"></textarea>
+                    </div>
 
-                <button onclick="generateAndPrint()" class="w-full py-4 bg-[#5c3d2e] hover:bg-[#4a3024] text-white rounded-xl font-bold text-lg shadow-lg transition-all flex items-center justify-center gap-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                    Gerar e Imprimir
-                </button>
+                    <button onclick="generateAndPrint()" class="w-full py-4 bg-gradient-to-r from-[#5c3d2e] to-[#7a513d] hover:from-[#4a3024] hover:to-[#5c3d2e] text-white rounded-xl font-bold text-lg shadow-xl shadow-[#5c3d2e]/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        Gerar e Imprimir
+                    </button>
+                    <p class="text-center text-[10px] text-slate-400 mt-3">Verifique se o layout da impressora está em "Paisagem".</p>
+                </div>
             </div>
 
         </div>
-    </div>
+    </main>
 
+    <!-- Div oculta usada apenas no momento da impressão -->
     <div id="printArea"></div>
 
     <script>
         let uploadedLogo = null;
         let uploadedBg = null;
+
+        // Custom Toast Notification (Substitui o alert() padrão)
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.remove('opacity-0');
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+            }, 3500);
+        }
 
         // Leitor de imagem para Logo
         document.getElementById('logoInput').addEventListener('change', function(e) {
@@ -315,16 +403,25 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
             }
         });
 
+        // Atualiza a fonte do select dinamicamente para o usuário ver o estilo no próprio select
+        document.getElementById('studentFont').addEventListener('change', function(e) {
+            this.style.fontFamily = this.value;
+        });
+
         function generateAndPrint() {
             const namesText = document.getElementById('namesList').value;
             const names = namesText.split('\n').map(n => n.trim()).filter(n => n.length > 0);
 
             if (names.length === 0) {
-                alert("Por favor, insira a lista de alunos.");
+                showToast("Por favor, insira a lista de alunos na coluna da direita.");
+                // Destaque visual no textarea
+                const textarea = document.getElementById('namesList');
+                textarea.classList.add('border-red-400', 'bg-red-50');
+                setTimeout(() => textarea.classList.remove('border-red-400', 'bg-red-50'), 2000);
                 return;
             }
 
-            // Captura de Campos
+            // Captura de Campos de Texto
             const courseTitle = document.getElementById('courseTitle').value;
             const dateText = document.getElementById('dateText').value;
             const workloadText = document.getElementById('workloadText').value;
@@ -333,6 +430,10 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
             const sig1Role = document.getElementById('sig1Role').value;
             const sig2Name = document.getElementById('sig2Name').value;
             const sig2Role = document.getElementById('sig2Role').value;
+
+            // Captura de Estilos
+            const selectedOverlayColor = document.getElementById('overlayColor').value;
+            const selectedFont = document.getElementById('studentFont').value;
 
             // Tratamento do conteúdo programático para criar os LIs
             const programText = document.getElementById('programContent').value;
@@ -359,17 +460,18 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
             names.forEach(name => {
                 
                 // --- PÁGINA 1: FRENTE ---
+                // Aplica a cor do fundo e a fonte escolhidas dinamicamente
                 const frontPage = `
                     <div class="certificate-page">
                         ${bgDiv}
-                        <div class="certificate-overlay">
+                        <div class="certificate-overlay" style="background-color: ${selectedOverlayColor};">
                             ${headerHTML}
                             
                             <h1 class="cert-title">CERTIFICADO</h1>
                             <h2 class="cert-course">${courseTitle}</h2>
                             
                             <p class="cert-outorgado">OUTORGADO A</p>
-                            <h3 class="cert-student">${name}</h3>
+                            <h3 class="cert-student" style="font-family: ${selectedFont};">${name}</h3>
                             
                             <div class="cert-details">
                                 <p>${dateText}</p>
@@ -385,7 +487,7 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
                                 
                                 <div class="sig-block">
                                     <div class="sig-line"></div>
-                                    <p class="sig-name sig-participant">${name}</p>
+                                    <p class="sig-name sig-participant" style="text-transform: uppercase; font-size: 10px;">${name}</p>
                                     <p class="sig-role sig-participant">Participante</p>
                                 </div>
 
@@ -403,7 +505,7 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
                 const backPage = `
                     <div class="certificate-page">
                         ${bgDiv}
-                        <div class="certificate-overlay">
+                        <div class="certificate-overlay" style="background-color: ${selectedOverlayColor};">
                             ${headerHTML}
                             
                             <h2 class="back-title">Conteúdo Programático</h2>
@@ -422,7 +524,7 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras (coxinha 
                 printArea.insertAdjacentHTML('beforeend', frontPage + backPage);
             });
 
-            // Chama a impressão
+            // Chama a impressão após dar tempo para o DOM renderizar
             setTimeout(() => { window.print(); }, 500);
         }
     </script>
