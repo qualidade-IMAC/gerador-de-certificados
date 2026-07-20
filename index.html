@@ -53,7 +53,7 @@
             }
 
             /* =========================================
-                MODELO 1: IDÊNTICO AO CANVA
+                MODELO 1: CSS BASE
                 ========================================= */
             .cert-m1-page {
                 width: 297mm; 
@@ -68,7 +68,6 @@
             }
             .cert-m1-page:last-child { page-break-after: auto; }
 
-            /* Elementos de Fundo */
             .m1-bg-layer { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
             
             .m1-circle-bg {
@@ -100,7 +99,6 @@
             }
             .m1-triangle-bg svg { width: 100%; height: 100%; display: block; }
 
-            /* Ornamento Lateral Direito (Formas Geométricas) */
             .m1-ornament-container {
                 position: absolute;
                 top: 0; 
@@ -115,12 +113,11 @@
                 display: block;
             }
 
-            /* Conteúdo Principal */
             .m1-content {
                 position: absolute;
                 top: 0; 
                 left: 0;
-                width: 220mm;
+                width: 220mm; 
                 height: 210mm;
                 padding: 25mm 0 20mm 35mm;
                 z-index: 10;
@@ -129,15 +126,8 @@
                 flex-direction: column;
             }
 
-            .m1-logo-container { 
-                height: 18mm; 
-                margin-bottom: 8mm; 
-            }
-            .m1-logo-container svg, .m1-logo-container img { 
-                height: 100%; 
-                object-fit: contain;
-                display: block; 
-            }
+            .m1-logo-container { height: 18mm; margin-bottom: 8mm; }
+            .m1-logo-container svg, .m1-logo-container img { height: 100%; object-fit: contain; display: block; }
 
             .m1-header-group { margin-bottom: 12mm; }
             .m1-title {
@@ -158,58 +148,23 @@
                 margin: 4px 0 0 0;
             }
 
-            .m1-label {
-                font-family: 'Montserrat', sans-serif;
-                font-size: 9pt;
-                font-weight: 500;
-                color: var(--m1-blue);
-                margin: 0 0 5px 0;
-            }
+            .m1-label { font-family: 'Montserrat', sans-serif; font-size: 9pt; font-weight: 500; color: var(--m1-blue); margin: 0 0 5px 0; }
 
-            .m1-name-wrapper { 
-                display: inline-block;
-                min-width: 120mm;
-                text-align: center;
-                margin-bottom: 15mm; 
-            }
-            .m1-student-name {
-                font-family: 'Montserrat', sans-serif;
-                font-size: 18pt;
-                font-weight: 700;
-                color: var(--m1-blue);
-                margin: 0 0 4px 0;
-            }
-            .m1-name-line {
-                width: 100%; 
-                height: 1px;
-                background-color: var(--m1-blue);
-            }
+            .m1-name-wrapper { display: inline-block; min-width: 120mm; text-align: center; margin-bottom: 15mm; }
+            .m1-student-name { font-family: 'Montserrat', sans-serif; font-size: 18pt; font-weight: 700; color: var(--m1-blue); margin: 0 0 4px 0; }
+            .m1-name-line { width: 100%; height: 1px; background-color: var(--m1-blue); }
 
-            .m1-body-text {
-                font-family: 'Montserrat', sans-serif;
-                font-size: 11pt;
-                color: var(--m1-blue);
-                line-height: 1.6;
-                max-width: 150mm;
-                margin: 0;
-            }
+            .m1-body-text { font-family: 'Montserrat', sans-serif; font-size: 11pt; color: var(--m1-blue); line-height: 1.6; max-width: 150mm; margin: 0; }
             .m1-body-text strong { font-weight: 700; }
 
-            .m1-signatures-area {
-                display: flex; 
-                justify-content: flex-start;
-                gap: 25mm;
-                margin-top: auto; 
-                margin-bottom: 15mm;
-                padding-left: 5mm;
-            }
+            .m1-signatures-area { display: flex; justify-content: flex-start; gap: 25mm; margin-top: auto; margin-bottom: 15mm; padding-left: 5mm; }
             .m1-sig-box { display: flex; flex-direction: column; align-items: center; width: 50mm; }
             .m1-sig-line { width: 100%; height: 1px; background-color: var(--m1-blue); margin-bottom: 3px; }
             .m1-sig-name { font-size: 8pt; font-weight: 700; color: var(--m1-blue); margin: 0; text-align: center; }
             .m1-sig-role { font-size: 7.5pt; font-weight: 400; color: var(--m1-blue); margin: 0; text-align: center; }
 
             /* =========================================
-                MODELO 2: MANTIDO INTACTO
+                MODELO 2: CSS BASE
                 ========================================= */
             .certificate-page {
                 width: 297mm; height: 210mm;
@@ -260,6 +215,7 @@
 
 <body class="text-slate-800 antialiased font-sans min-h-screen flex flex-col">
 
+    <!-- ==================== UI DO SISTEMA MANTIDA INTACTA ==================== -->
     <div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-xl font-bold opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center gap-2">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
         <span id="toastMessage">Mensagem</span>
@@ -313,7 +269,6 @@
                     </div>
                 </div>
 
-                <!-- FORMULÁRIOS MANTIDOS INTACTOS -->
                 <div id="form-modelo1" class="form-section space-y-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
                         <h2 class="text-lg font-bold text-[#1b4284] mb-4 flex items-center gap-2">
@@ -518,101 +473,94 @@ Pães tradicionais e especiais;</textarea>
         });
 
         // =========================================================================
-        // A NOVA FUNÇÃO: Recriando a obra de arte do Canva peça por peça
+        // NOVA FUNÇÃO: Posicionamento fixo de cada elemento
         // =========================================================================
         function getM1OrnamentSVG() {
-            // Em vez de usar um pattern repetitivo, nós definimos as peças básicas no <defs>
-            // E utilizamos o comando <use> para carimbar as peças na tela exatamente 
-            // nas posições X e Y correspondentes à imagem original do Canva.
+            /** 
+             * DOCUMENTAÇÃO DA LÓGICA SVG:
+             * 
+             * 1. A Área de Desenho (viewBox="0 0 50 240"): Criamos uma prancheta matemática exata.
+             * 2. Os Moldes (<defs>): Definimos as peças puras do quebra-cabeça. Cada célula normal
+             *    tem o tamanho de 20x20 unidades. Definimos meios-círculos e círculos inteiros.
+             * 3. A Montagem (<use>): Mapeamos linha por linha (Y = 0, 20, 40, etc) e as duas 
+             *    colunas principais (X = 0 e X = 20), reproduzindo exatamente o padrão de referência
+             *    do Canva original, garantindo que as peças tocam 100% umas nas outras sem buracos.
+             * 4. As Ondas Laterais: Posicionadas no limite direito (X=40) com formas de 10x10.
+             */
             return `
-            <svg viewBox="0 0 65 210" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 50 240" preserveAspectRatio="xMaxYMin meet" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                    <!-- Formas Básicas (Molde) -->
-                    <circle id="y-c" r="9.5" fill="#f7b024"/>
-                    <circle id="b-c" r="9.5" fill="#1b4284"/>
+                    <!-- Formas Básicas (Tamanho da Célula: 20x20) -->
+                    <circle id="yc" cx="10" cy="10" r="10" fill="#f7b024"/> <!-- Círculo Amarelo -->
+                    <circle id="bc" cx="10" cy="10" r="10" fill="#1b4284"/> <!-- Círculo Azul -->
                     
-                    <!-- Meios Círculos -->
-                    <path id="y-hu" d="M-9.5,0 A9.5,9.5 0 0,1 9.5,0 Z" fill="#f7b024"/>
-                    <path id="y-hd" d="M-9.5,0 A9.5,9.5 0 0,0 9.5,0 Z" fill="#f7b024"/>
-                    <path id="b-hu" d="M-9.5,0 A9.5,9.5 0 0,1 9.5,0 Z" fill="#1b4284"/>
-                    <path id="b-hd" d="M-9.5,0 A9.5,9.5 0 0,0 9.5,0 Z" fill="#1b4284"/>
-                    <path id="b-hl" d="M0,-9.5 A9.5,9.5 0 0,0 0,9.5 Z" fill="#1b4284"/>
+                    <path id="yht" d="M0,10 A10,10 0 0,1 20,10 Z" fill="#f7b024"/> <!-- Meio Amarelo Topo -->
+                    <path id="yhb" d="M0,10 A10,10 0 0,0 20,10 Z" fill="#f7b024"/> <!-- Meio Amarelo Base -->
                     
-                    <!-- Formas Grandes -->
-                    <path id="lb-hd" d="M-19,0 A19,19 0 0,0 19,0 Z" fill="#1b4284"/>
-                    <path id="ly-hl" d="M0,-19 A19,19 0 0,0 0,19 Z" fill="#f7b024"/>
+                    <path id="bhb" d="M0,10 A10,10 0 0,0 20,10 Z" fill="#1b4284"/> <!-- Meio Azul Base -->
+                    <path id="bhl" d="M10,0 A10,10 0 0,0 10,20 Z" fill="#1b4284"/> <!-- Meio Azul Esquerda -->
+                    <path id="bhr" d="M0,0 A10,10 0 0,1 0,20 Z" fill="#1b4284"/>  <!-- Meio Azul Direita -->
                     
-                    <!-- Formas da Barra Ondulada Menor (Scallops) -->
-                    <path id="sc-b" d="M0,-4.5 A4.5,4.5 0 0,0 0,4.5 Z" fill="#1b4284"/>
-                    <path id="sc-y" d="M0,-4.5 A4.5,4.5 0 0,0 0,4.5 Z" fill="#f7b024"/>
+                    <!-- Formas Gigantes que sobrepõem células (Tamanho 40x20 ou 20x40) -->
+                    <path id="hbhb" d="M0,0 A20,20 0 0,0 40,0 Z" fill="#1b4284"/>   <!-- Meião Azul Base (Ocupa as 2 colunas) -->
+                    <path id="hyhl" d="M20,0 A20,20 0 0,0 20,40 Z" fill="#f7b024"/> <!-- Meião Amarelo Esquerda (Ocupa 2 linhas) -->
+                    
+                    <!-- Scallops (Borda Ondulada Menor) -->
+                    <path id="scy" d="M10,0 A5,5 0 0,0 10,10 Z" fill="#f7b024"/> <!-- Ondulada Amarela -->
+                    <path id="scb" d="M10,0 A5,5 0 0,0 10,10 Z" fill="#1b4284"/> <!-- Ondulada Azul -->
                 </defs>
 
-                <!-- ============================================== -->
-                <!-- COLUNA 1 E COLUNA 2 (A Malha Irregular Principal)-->
-                <!-- ============================================== -->
-                
-                <!-- Bloco Amarelo do Topo -->
-                <use href="#y-hu" x="14" y="10" />
-                <use href="#y-hd" x="14" y="20" />
-                <use href="#y-c" x="33" y="20" />
-                
-                <!-- Bloco Azul Pequeno -->
-                <use href="#b-hd" x="14" y="39" />
-                <use href="#b-c" x="33" y="39" />
-                
-                <!-- Meio Círculo Azul Gigante -->
-                <use href="#lb-hd" x="23.5" y="49" />
-                
-                <!-- Meio Círculo Amarelo Gigante e Círculos adjacentes -->
-                <use href="#ly-hl" x="23.5" y="78" />
-                <use href="#y-c" x="33" y="68.5" />
-                <use href="#y-hd" x="33" y="87.5" />
-                
-                <!-- Círculos Azuis no Meio -->
-                <use href="#b-c" x="14" y="107" />
-                <use href="#b-c" x="33" y="107" />
-                
-                <!-- Círculo e Meio Círculo Azul (Esquerda) -->
-                <use href="#b-c" x="14" y="126" />
-                <use href="#b-hl" x="42.5" y="126" />
-                
-                <!-- Outro Meio Círculo Amarelo Gigante -->
-                <use href="#ly-hl" x="23.5" y="155" />
-                
-                <!-- Base Azul -->
-                <use href="#b-c" x="14" y="184" />
-                <use href="#b-c" x="33" y="184" />
-                <use href="#b-hu" x="14" y="203" />
-                <use href="#b-c" x="33" y="203" />
+                <!-- ================== COLUNAS PRINCIPAIS ================== -->
+                <!-- A coluna 1 fica em X=0 e a coluna 2 em X=20 -->
 
-                <!-- ============================================== -->
-                <!-- COLUNA 3 (Barra direita com as formas pequenas) -->
-                <!-- ============================================== -->
+                <!-- Linha 1 -->
+                <use href="#yht" x="0" y="0"/><use href="#bhb" x="20" y="0"/>
+                <!-- Linha 2 -->
+                <use href="#yhb" x="0" y="20"/><use href="#yc" x="20" y="20"/>
+                <!-- Linha 3 -->
+                <use href="#bhb" x="0" y="40"/><use href="#bc" x="20" y="40"/>
                 
-                <!-- Pedaço Azul (4 formas) -->
-                <use href="#sc-b" x="55" y="15" /><use href="#sc-b" x="55" y="24" />
-                <use href="#sc-b" x="55" y="33" /><use href="#sc-b" x="55" y="42" />
+                <!-- Linha 4 (Forma Gigante Azul - preenche duas colunas de uma vez) -->
+                <use href="#hbhb" x="0" y="60"/>
                 
-                <!-- Pedaço Amarelo (5 formas) -->
-                <use href="#sc-y" x="55" y="51" /><use href="#sc-y" x="55" y="60" />
-                <use href="#sc-y" x="55" y="69" /><use href="#sc-y" x="55" y="78" /><use href="#sc-y" x="55" y="87" />
+                <!-- Linha 5 e 6 (Forma Gigante Amarela + duas formas regulares na direita) -->
+                <use href="#hyhl" x="0" y="80"/>
+                <use href="#yc" x="20" y="80"/>
+                <use href="#yhb" x="20" y="100"/>
                 
-                <!-- Pedaço Azul (4 formas) -->
-                <use href="#sc-b" x="55" y="96" /><use href="#sc-b" x="55" y="105" />
-                <use href="#sc-b" x="55" y="114" /><use href="#sc-b" x="55" y="123" />
+                <!-- Linha 7 -->
+                <use href="#bc" x="0" y="120"/><use href="#bc" x="20" y="120"/>
+                <!-- Linha 8 -->
+                <use href="#bc" x="0" y="140"/><use href="#bhr" x="20" y="140"/>
                 
-                <!-- Pedaço Amarelo (5 formas) -->
-                <use href="#sc-y" x="55" y="132" /><use href="#sc-y" x="55" y="141" />
-                <use href="#sc-y" x="55" y="150" /><use href="#sc-y" x="55" y="159" /><use href="#sc-y" x="55" y="168" />
+                <!-- Linha 9 e 10 (Outra Forma Gigante Amarela) -->
+                <use href="#hyhl" x="0" y="160"/>
+                <use href="#yc" x="20" y="160"/>
+                <use href="#yc" x="20" y="180"/>
                 
-                <!-- Pedaço Azul e Amarelo Final -->
-                <use href="#sc-b" x="55" y="177" /><use href="#sc-b" x="55" y="186" />
-                <use href="#sc-b" x="55" y="195" /><use href="#sc-b" x="55" y="204" />
-                <use href="#sc-y" x="55" y="213" />
+                <!-- Linha 11 -->
+                <use href="#bc" x="0" y="200"/><use href="#bc" x="20" y="200"/>
+                <!-- Linha 12 -->
+                <use href="#bhb" x="0" y="220"/><use href="#bc" x="20" y="220"/>
+
+                <!-- ================== BORDA ONDULADA ================== -->
+                <!-- Posicionada no extremo direito (X=40), deixando o gap perfeito -->
+                
+                <!-- Azuis Superiores (4 peças) -->
+                <use href="#scb" x="40" y="0"/><use href="#scb" x="40" y="10"/><use href="#scb" x="40" y="20"/><use href="#scb" x="40" y="30"/>
+                <!-- Amarelas (5 peças) -->
+                <use href="#scy" x="40" y="40"/><use href="#scy" x="40" y="50"/><use href="#scy" x="40" y="60"/><use href="#scy" x="40" y="70"/><use href="#scy" x="40" y="80"/>
+                <!-- Azuis Meio (5 peças) -->
+                <use href="#scb" x="40" y="90"/><use href="#scb" x="40" y="100"/><use href="#scb" x="40" y="110"/><use href="#scb" x="40" y="120"/><use href="#scb" x="40" y="130"/>
+                <!-- Amarelas Inferiores (6 peças) -->
+                <use href="#scy" x="40" y="140"/><use href="#scy" x="40" y="150"/><use href="#scy" x="40" y="160"/><use href="#scy" x="40" y="170"/><use href="#scy" x="40" y="180"/><use href="#scy" x="40" y="190"/>
+                <!-- Azuis da Base (5 peças) -->
+                <use href="#scb" x="40" y="200"/><use href="#scb" x="40" y="210"/><use href="#scb" x="40" y="220"/><use href="#scb" x="40" y="230"/><use href="#scb" x="40" y="240"/>
             </svg>
             `;
         }
 
+        // Fundo do canto inferior esquerdo (Círculos concêntricos suaves)
         function getM1TriangleSVG() {
             return `
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
