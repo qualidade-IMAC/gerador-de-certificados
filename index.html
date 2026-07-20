@@ -9,14 +9,20 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Adicionando novas fontes elegantes para o certificado -->
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;1,600&family=Great+Vibes&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <!-- Fontes originais (M2) e Montserrat (M1 e M2) -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;1,600&family=Great+Vibes&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 
     <style>
         :root { 
+            /* Cores Gerais e Modelo 2 */
             --cor-imac-marrom: #5c3d2e; 
             --cor-imac-dourado: #b45309;
             --cor-imac-fundo: #fdfbf9;
+            
+            /* Cores Específicas do Modelo 1 */
+            --m1-blue: #1b4284;
+            --m1-yellow: #f7b024;
+            --m1-light-grey: #f0f3f8;
         }
 
         body {
@@ -24,7 +30,6 @@
             background-color: var(--cor-imac-fundo);
         }
 
-        /* Estilização da barra de rolagem para um visual mais limpo */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
@@ -37,15 +42,184 @@
         @media print {
             @page { size: A4 landscape; margin: 0; }
             
-            /* Oculta completamente a interface para não sobrar espaços em branco invisíveis */
             body > *:not(#printArea):not(script) { display: none !important; }
             
             #printArea {
                 display: block;
                 position: relative;
                 width: 100%;
+                background: white;
             }
 
+            /* =========================================
+               ESTILOS DO MODELO 1 (AZUL E AMARELO)
+               ========================================= */
+            .cert-m1-page {
+                width: 297mm; height: 210mm;
+                page-break-after: always;
+                break-after: page;
+                margin: 0;
+                box-sizing: border-box;
+                position: relative;
+                overflow: hidden;
+                background-color: #ffffff;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                font-family: 'Montserrat', sans-serif;
+            }
+
+            .cert-m1-page:last-child {
+                page-break-after: auto;
+                break-after: auto;
+            }
+
+            /* Fundo - Formas Claras */
+            .m1-bg-elements {
+                position: absolute;
+                inset: 0;
+                z-index: 1;
+            }
+            .m1-bg-circle-large {
+                position: absolute;
+                width: 140mm; height: 140mm;
+                background-color: var(--m1-light-grey);
+                border-radius: 50%;
+                top: -10mm; left: 65mm;
+                z-index: 1;
+            }
+            .m1-bg-dots {
+                position: absolute;
+                top: 45mm; right: 55mm;
+                width: 35mm; height: 35mm;
+                background-image: radial-gradient(#d5dbe4 2.5px, transparent 2.5px);
+                background-size: 10px 10px;
+                z-index: 1;
+            }
+            .m1-bg-triangle {
+                position: absolute;
+                bottom: 15mm; left: -10mm;
+                width: 70mm; height: 70mm;
+                z-index: 1;
+                opacity: 0.6;
+            }
+
+            /* Ornamentação Direita */
+            .m1-right-ornament {
+                position: absolute;
+                top: 0; right: 0; bottom: 0;
+                width: 65mm; 
+                height: 100%;
+                z-index: 5;
+            }
+
+            /* Container Principal de Conteúdo */
+            .m1-content-container {
+                position: relative;
+                z-index: 10;
+                width: 78%;
+                height: 100%;
+                padding: 25mm 20mm 20mm 35mm;
+                display: flex;
+                flex-direction: column;
+                box-sizing: border-box;
+            }
+
+            /* Cabeçalho e Textos */
+            .m1-logo-container {
+                margin-bottom: 5mm;
+            }
+            .m1-logo-img {
+                height: 20mm;
+                object-fit: contain;
+            }
+            
+            .m1-title-main {
+                font-size: 64px;
+                font-weight: 900;
+                color: var(--m1-blue);
+                line-height: 1;
+                letter-spacing: -1px;
+                margin: 0;
+            }
+            .m1-title-sub {
+                font-size: 24px;
+                font-weight: 300;
+                color: var(--m1-blue);
+                letter-spacing: 11px;
+                margin-top: 4px;
+                margin-bottom: 25mm;
+            }
+
+            .m1-certify-text {
+                font-size: 13px;
+                color: var(--m1-blue);
+                font-weight: 500;
+                margin-bottom: 6px;
+            }
+
+            .m1-student-name {
+                font-size: 28px;
+                font-weight: 700;
+                color: var(--m1-blue);
+                text-align: center;
+                width: 130mm;
+                margin-bottom: 3px;
+            }
+
+            .m1-name-line {
+                width: 130mm;
+                height: 1.5px;
+                background-color: var(--m1-blue);
+                margin-bottom: 18mm;
+            }
+
+            .m1-body-text {
+                font-size: 15px;
+                color: var(--m1-blue);
+                line-height: 1.6;
+                width: 145mm;
+                font-weight: 400;
+            }
+            .m1-body-text strong {
+                font-weight: 700;
+            }
+
+            /* Assinaturas */
+            .m1-signatures-area {
+                display: flex;
+                gap: 25mm;
+                margin-top: auto;
+                margin-bottom: 10mm;
+                margin-left: 15mm;
+            }
+            .m1-sig-block {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 60mm;
+            }
+            .m1-sig-line {
+                width: 100%;
+                height: 1.5px;
+                background-color: var(--m1-blue);
+                margin-bottom: 4px;
+            }
+            .m1-sig-name {
+                font-size: 11px;
+                font-weight: 700;
+                color: var(--m1-blue);
+                margin: 0;
+            }
+            .m1-sig-role {
+                font-size: 10px;
+                font-weight: 400;
+                color: var(--m1-blue);
+                margin: 0;
+            }
+
+            /* =========================================
+               ESTILOS DO MODELO 2 (MARROM / PÃES)
+               ========================================= */
             .certificate-page {
                 width: 297mm; height: 210mm;
                 page-break-after: always;
@@ -60,13 +234,11 @@
                 print-color-adjust: exact;
             }
 
-            /* Correção: Evita que a última página puxe uma folha extra em branco */
             .certificate-page:last-child {
                 page-break-after: auto;
                 break-after: auto;
             }
 
-            /* Fundo temático com pães */
             .certificate-bg {
                 position: absolute;
                 top: 0; left: 0; right: 0; bottom: 0;
@@ -76,7 +248,6 @@
                 z-index: 1;
             }
 
-            /* Fundo enviado pelo usuário via upload */
             .custom-bg {
                 position: absolute;
                 top: 0; left: 0; right: 0; bottom: 0;
@@ -86,7 +257,6 @@
                 z-index: 1;
             }
 
-            /* Caixa semi-transparente no centro (A cor é definida via JS agora) */
             .certificate-overlay {
                 width: 88%;
                 height: 88%;
@@ -141,7 +311,6 @@
                 letter-spacing: 1px;
             }
 
-            /* A FONTE DO ALUNO AGORA É DINÂMICA VIA JS */
             .cert-student {
                 font-size: 44px;
                 font-weight: 400;
@@ -237,12 +406,9 @@
             z-index: 9999;
             transition: opacity 0.8s ease, visibility 0.8s ease;
         }
-        
-        /* Garante que o splash screen nunca saia na impressão caso alguém imprima rápido demais */
         @media print {
             #splash-screen { display: none !important; }
         }
-        
         #splash-screen.hide-splash {
             opacity: 0;
             visibility: hidden;
@@ -268,6 +434,11 @@
             60% { text-shadow: .25em 0 0 var(--cor-imac-marrom), .5em 0 0 rgba(0,0,0,0); }
             80%, 100% { text-shadow: .25em 0 0 var(--cor-imac-marrom), .5em 0 0 var(--cor-imac-marrom); }
         }
+
+        /* Ocultar forms suavemente */
+        .form-section {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
     </style>
 </head>
 
@@ -275,10 +446,13 @@
 
     <!-- Splash Screen (Tela de Abertura) -->
     <div id="splash-screen">
-        <!-- O src aponta para o logo.png que você mencionou -->
-        <img src="logo.png" alt="IMAC Logo" class="splash-logo" onerror="this.src='https://placehold.co/300x120/fdfbf9/5c3d2e?text=IMAC+LOGO&font=Montserrat'">
+        <svg class="splash-logo" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="38" fill="#1b4284">IMAC</text>
+            <circle cx="140" cy="15" r="8" fill="#f7b024"/>
+            <path d="M136 13 A 1.5 1.5 0 0 0 138 13 M142 13 A 1.5 1.5 0 0 0 144 13" stroke="#1b4284" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M137 17 Q140 20 143 17" stroke="#1b4284" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        </svg>
         <div class="mt-8 flex flex-col items-center gap-2">
-            <!-- Spinner -->
             <svg class="animate-spin h-8 w-8 text-[#b45309]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -303,7 +477,7 @@
             </div>
             <div>
                 <h1 class="text-xl md:text-2xl font-bold text-[#5c3d2e] leading-tight">Certificados IMAC</h1>
-                <p class="text-xs text-slate-500 font-medium">Sistema Gerador de Diplomas</p>
+                <p class="text-xs text-slate-500 font-medium">Sistema Integrado de Diplomas</p>
             </div>
         </div>
     </header>
@@ -314,118 +488,200 @@
             <!-- Coluna da Esquerda: Configurações -->
             <div class="w-full lg:w-2/3 space-y-6">
                 
-                <!-- Sessão: Design & Estilo -->
+                <!-- SELEÇÃO DE MODELO -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
                     <h2 class="text-lg font-bold text-[#5c3d2e] mb-4 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-[#b45309]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
-                        Design & Aparência
+                        <svg class="w-5 h-5 text-[#b45309]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path></svg>
+                        Selecione o Modelo do Certificado
                     </h2>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-                        <!-- Imagens -->
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Logo do Certificado</label>
-                                <div class="relative">
-                                    <input type="file" id="logoInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-slate-100 file:text-[#5c3d2e] file:font-semibold hover:file:bg-slate-200 transition-colors border border-slate-200 rounded-lg p-1">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="certModel" value="modelo1" class="peer sr-only" checked onchange="toggleModelForms()">
+                            <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-[#1b4284] peer-checked:bg-blue-50 transition-all hover:bg-slate-50">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h3 class="font-bold text-[#1b4284]">Modelo 1</h3>
+                                    <svg class="w-5 h-5 text-[#1b4284] opacity-0 peer-checked:opacity-100" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
                                 </div>
+                                <p class="text-xs text-slate-500">Corporativo Azul e Amarelo (Frente única).</p>
                             </div>
+                        </label>
+                        
+                        <label class="cursor-pointer">
+                            <input type="radio" name="certModel" value="modelo2" class="peer sr-only" onchange="toggleModelForms()">
+                            <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-[#5c3d2e] peer-checked:bg-[#5c3d2e]/10 transition-all hover:bg-slate-50">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h3 class="font-bold text-[#5c3d2e]">Modelo 2</h3>
+                                    <svg class="w-5 h-5 text-[#5c3d2e] opacity-0 peer-checked:opacity-100" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                </div>
+                                <p class="text-xs text-slate-500">Treinamento Pães (Frente e Verso programático).</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- =========================================
+                     FORMULÁRIO MODELO 1
+                     ========================================= -->
+                <div id="form-modelo1" class="form-section bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-[#1b4284] mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-[#f7b024]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Dados do Certificado (Modelo 1)
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nome do Curso</label>
+                            <input type="text" id="m1-courseName" value="Metodologia 5S" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#1b4284] outline-none text-sm">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Fundo (Background)</label>
-                                <input type="file" id="bgInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-slate-100 file:text-[#b45309] file:font-semibold hover:file:bg-slate-200 transition-colors border border-slate-200 rounded-lg p-1">
-                                <p class="text-[10px] text-slate-400 mt-1">Deixe vazio para usar o fundo temático padrão.</p>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Data</label>
+                                <input type="text" id="m1-completionDate" value="16/07/2026" class="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#1b4284]">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Empresa / Local</label>
+                                <input type="text" id="m1-companyName" value="IMAC INDUSTRIA DE MASSAS CONGELADAS LTDA" class="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#1b4284]">
                             </div>
                         </div>
 
-                        <!-- Estilos Dinâmicos (Novidade) -->
-                        <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Cor da Caixa Translúcida</label>
-                                <select id="overlayColor" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#5c3d2e] bg-white cursor-pointer transition-shadow">
-                                    <option value="rgba(255, 255, 255, 0.70)">Branco (Padrão)</option>
-                                    <option value="rgba(242, 234, 226, 0.85)">Marrom Claro (Estilo IMAC)</option>
-                                </select>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Duração / Carga Horária</label>
+                            <input type="text" id="m1-durationText" value="3 horas" class="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#1b4284]">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-100">
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Assinatura Esquerda</label>
+                                <input type="text" id="m1-sig1Name" value="Daniel Cavalcante" class="w-full px-3 py-2 border border-slate-300 rounded text-sm mb-2 focus:ring-2 focus:ring-[#1b4284] outline-none font-bold">
+                                <input type="text" id="m1-sig1Role" value="Diretor de Operações" class="w-full px-3 py-2 border border-slate-300 rounded text-xs focus:ring-2 focus:ring-[#1b4284] outline-none">
                             </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Fonte do Nome do Aluno</label>
-                                <select id="studentFont" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-lg outline-none focus:ring-2 focus:ring-[#5c3d2e] bg-white cursor-pointer transition-shadow">
-                                    <option value="'Monotype Corsiva', cursive" style="font-family: 'Monotype Corsiva', cursive;">Monotype Corsiva (Clássica)</option>
-                                    <option value="'Playfair Display', serif" style="font-family: 'Playfair Display', serif;">Playfair Display</option>
-                                    <option value="'Great Vibes', cursive" style="font-family: 'Great Vibes', cursive;">Great Vibes</option>
-                                    <option value="'Dancing Script', cursive" style="font-family: 'Dancing Script', cursive;">Dancing Script</option>
-                                    <option value="'Lora', serif" style="font-family: 'Lora', serif;">Lora</option>
-                                </select>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Assinatura Direita</label>
+                                <input type="text" id="m1-sig2Name" value="Joice Santana" class="w-full px-3 py-2 border border-slate-300 rounded text-sm mb-2 focus:ring-2 focus:ring-[#1b4284] outline-none font-bold">
+                                <input type="text" id="m1-sig2Role" value="Gerente de Melhoria Contínua" class="w-full px-3 py-2 border border-slate-300 rounded text-xs focus:ring-2 focus:ring-[#1b4284] outline-none">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sessão: Dados do Curso -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <h2 class="text-lg font-bold text-[#5c3d2e] mb-4 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-[#b45309]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        Dados do Curso
-                    </h2>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Título do Curso</label>
-                            <input type="text" id="courseTitle" value="CURSO: PADRÃO DE FORNEAMENTO DE PÃES, PÃES DE QUEIJO E SALGADOS" class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#b45309] outline-none font-semibold text-sm transition-shadow">
-                        </div>
+                <!-- =========================================
+                     FORMULÁRIO MODELO 2 (Original Pães)
+                     ========================================= -->
+                <div id="form-modelo2" class="form-section space-y-6" style="display: none;">
+                    <!-- Sessão: Design & Estilo -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <h2 class="text-lg font-bold text-[#5c3d2e] mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-[#b45309]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                            Design & Aparência (Modelo 2)
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Logo do Certificado</label>
+                                    <div class="relative">
+                                        <input type="file" id="logoInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-slate-100 file:text-[#5c3d2e] file:font-semibold hover:file:bg-slate-200 transition-colors border border-slate-200 rounded-lg p-1">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Fundo (Background)</label>
+                                    <input type="file" id="bgInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-slate-100 file:text-[#b45309] file:font-semibold hover:file:bg-slate-200 transition-colors border border-slate-200 rounded-lg p-1">
+                                    <p class="text-[10px] text-slate-400 mt-1">Deixe vazio para usar o fundo temático de pães.</p>
+                                </div>
+                            </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Cor da Caixa Translúcida</label>
+                                    <select id="overlayColor" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#5c3d2e] bg-white cursor-pointer transition-shadow">
+                                        <option value="rgba(255, 255, 255, 0.70)">Branco (Padrão)</option>
+                                        <option value="rgba(242, 234, 226, 0.85)">Marrom Claro (Estilo IMAC)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Fonte do Nome do Aluno</label>
+                                    <select id="studentFont" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-lg outline-none focus:ring-2 focus:ring-[#5c3d2e] bg-white cursor-pointer transition-shadow">
+                                        <option value="'Monotype Corsiva', cursive" style="font-family: 'Monotype Corsiva', cursive;">Monotype Corsiva (Clássica)</option>
+                                        <option value="'Playfair Display', serif" style="font-family: 'Playfair Display', serif;">Playfair Display</option>
+                                        <option value="'Great Vibes', cursive" style="font-family: 'Great Vibes', cursive;">Great Vibes</option>
+                                        <option value="'Dancing Script', cursive" style="font-family: 'Dancing Script', cursive;">Dancing Script</option>
+                                        <option value="'Lora', serif" style="font-family: 'Lora', serif;">Lora</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sessão: Dados do Curso -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <h2 class="text-lg font-bold text-[#5c3d2e] mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-[#b45309]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            Dados do Curso (Modelo 2)
+                        </h2>
+                        
+                        <div class="space-y-4">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Dias de Realização</label>
-                                <input type="text" id="dateText" value="REALIZADO NOS DIAS: 14 à 17 DE JULHO DE 2026." class="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#5c3d2e] transition-shadow">
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Título do Curso</label>
+                                <input type="text" id="m2-courseTitle" value="CURSO: PADRÃO DE FORNEAMENTO DE PÃES, PÃES DE QUEIJO E SALGADOS" class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#b45309] outline-none font-semibold text-sm transition-shadow">
                             </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Dias de Realização</label>
+                                    <input type="text" id="m2-dateText" value="REALIZADO NOS DIAS: 14 à 17 DE JULHO DE 2026." class="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#5c3d2e] transition-shadow">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Carga Horária</label>
+                                    <input type="text" id="m2-workloadText" value="CARGA HORÁRIA: 40 HORAS." class="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#5c3d2e] transition-shadow">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Assinatura Esquerda</label>
+                                    <input type="text" id="m2-sig1Name" value="José de Sousa Barros" placeholder="Nome" class="w-full px-3 py-2 border border-slate-300 rounded text-sm mb-2 focus:ring-2 focus:ring-[#5c3d2e] outline-none transition-shadow">
+                                    <input type="text" id="m2-sig1Role" value="Técnico de Panificação – IMAC Congelados" placeholder="Cargo" class="w-full px-3 py-2 border border-slate-300 rounded text-xs focus:ring-2 focus:ring-[#5c3d2e] outline-none transition-shadow">
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Assinatura Direita</label>
+                                    <input type="text" id="m2-sig2Name" value="Thalita Lelis" placeholder="Nome" class="w-full px-3 py-2 border border-slate-300 rounded text-sm mb-2 focus:ring-2 focus:ring-[#5c3d2e] outline-none transition-shadow">
+                                    <input type="text" id="m2-sig2Role" value="Gerente Industrial – IMAC Congelados" placeholder="Cargo" class="w-full px-3 py-2 border border-slate-300 rounded text-xs focus:ring-2 focus:ring-[#5c3d2e] outline-none transition-shadow">
+                                </div>
+                            </div>
+
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Carga Horária</label>
-                                <input type="text" id="workloadText" value="CARGA HORÁRIA: 40 HORAS." class="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#5c3d2e] transition-shadow">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Assinatura Esquerda</label>
-                                <input type="text" id="sig1Name" value="José de Sousa Barros" placeholder="Nome" class="w-full px-3 py-2 border border-slate-300 rounded text-sm mb-2 focus:ring-2 focus:ring-[#5c3d2e] outline-none transition-shadow">
-                                <input type="text" id="sig1Role" value="Técnico de Panificação – IMAC Congelados" placeholder="Cargo" class="w-full px-3 py-2 border border-slate-300 rounded text-xs focus:ring-2 focus:ring-[#5c3d2e] outline-none transition-shadow">
-                            </div>
-                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Assinatura Direita</label>
-                                <input type="text" id="sig2Name" value="Thalita Lelis" placeholder="Nome" class="w-full px-3 py-2 border border-slate-300 rounded text-sm mb-2 focus:ring-2 focus:ring-[#5c3d2e] outline-none transition-shadow">
-                                <input type="text" id="sig2Role" value="Gerente Industrial – IMAC Congelados" placeholder="Cargo" class="w-full px-3 py-2 border border-slate-300 rounded text-xs focus:ring-2 focus:ring-[#5c3d2e] outline-none transition-shadow">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1 mt-2">Conteúdo Programático (Verso)</label>
-                            <p class="text-[11px] text-slate-500 mb-2">Cada linha será um item da lista (bullet point). Separe os tópicos com a tecla "Enter".</p>
-                            <textarea id="programContent" rows="5" class="w-full px-4 py-3 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#5c3d2e] resize-y transition-shadow">Técnicas de fermentação e modelagem: telamento, tempo de degelo e fermentação, modelagem e adição de coberturas quando necessário, cortes característicos do produto;
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1 mt-2">Conteúdo Programático (Verso)</label>
+                                <p class="text-[11px] text-slate-500 mb-2">Cada linha será um item da lista (bullet point). Separe os tópicos com a tecla "Enter".</p>
+                                <textarea id="m2-programContent" rows="5" class="w-full px-4 py-3 border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#5c3d2e] resize-y transition-shadow">Técnicas de fermentação e modelagem: telamento, tempo de degelo e fermentação, modelagem e adição de coberturas quando necessário, cortes característicos do produto;
 Assamento de produtos: manuseio de forno, controle de temperatura e de tempo;
 Frituras: manuseio de fritadeira industrial elétrica, controle de temperatura e de tempo;
 Pães tradicionais: pão francês, pão francês leve, pão francês milho, baguetes, pão hot dog, pães hambúrgueres, pão de coco;
 Pães especiais: pão rústico com vinho, pão vegano, pão australiano, pão andino, baguete tomate seco e etc;
 Pães de queijo: coquetel, lanche e chipa;
 Salgados: croissants com e sem recheio, folhados com recheio, frituras e quiches salgadas.</textarea>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </div> <!-- Fim Form Modelo 2 -->
+
             </div>
 
             <!-- Coluna da Direita: Lista de Alunos e Botão de Ação -->
             <div class="w-full lg:w-1/3">
-                <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-t-[#b45309] sticky top-24">
+                <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-t-[#5c3d2e] sticky top-24" id="actionSidebar">
                     <h2 class="text-lg font-bold text-[#5c3d2e] mb-1 flex items-center gap-2">
                         <svg class="w-5 h-5 text-[#b45309]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                         Lista de Alunos
                     </h2>
-                    <p class="text-xs text-slate-500 mb-4">Cole um nome por linha. O sistema gerará a frente e o verso automaticamente para cada um.</p>
+                    <p class="text-xs text-slate-500 mb-4" id="listHint">Cole um nome por linha.</p>
                     
                     <div class="flex-grow flex flex-col mb-6">
-                        <textarea id="namesList" rows="12" class="w-full p-4 border-2 border-slate-200 rounded-xl focus:border-[#b45309] focus:ring-4 focus:ring-orange-50 outline-none resize-none font-medium text-slate-700 transition-all leading-relaxed" placeholder="Exemplo:&#10;Francisca Lisonete Alves de Lima&#10;Aline Cardoso de Carvalho&#10;João da Silva"></textarea>
+                        <textarea id="namesList" rows="12" class="w-full p-4 border-2 border-slate-200 rounded-xl focus:border-[#b45309] focus:ring-4 focus:ring-orange-50 outline-none resize-none font-medium text-slate-700 transition-all leading-relaxed" placeholder="Exemplo:&#10;José Rogério&#10;Aline Cardoso de Carvalho&#10;João da Silva"></textarea>
                     </div>
 
-                    <button onclick="generateAndPrint()" class="w-full py-4 bg-gradient-to-r from-[#5c3d2e] to-[#7a513d] hover:from-[#4a3024] hover:to-[#5c3d2e] text-white rounded-xl font-bold text-lg shadow-xl shadow-[#5c3d2e]/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-3">
+                    <button onclick="generateAndPrint()" id="printBtn" class="w-full py-4 bg-[#1b4284] hover:bg-[#15346a] text-white rounded-xl font-bold text-lg shadow-xl shadow-blue-900/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-3">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                         Gerar e Imprimir
                     </button>
@@ -443,17 +699,41 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras e quiches
         let uploadedLogo = null;
         let uploadedBg = null;
 
-        // Custom Toast Notification (Substitui o alert() padrão)
+        // Custom Toast Notification
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toastMessage').textContent = message;
             toast.classList.remove('opacity-0');
-            setTimeout(() => {
-                toast.classList.add('opacity-0');
-            }, 3500);
+            setTimeout(() => { toast.classList.add('opacity-0'); }, 3500);
         }
 
-        // Leitor de imagem para Logo
+        // Alternar Visibilidade dos Formulários
+        function toggleModelForms() {
+            const isModel1 = document.querySelector('input[name="certModel"]:checked').value === 'modelo1';
+            const formM1 = document.getElementById('form-modelo1');
+            const formM2 = document.getElementById('form-modelo2');
+            const actionSidebar = document.getElementById('actionSidebar');
+            const printBtn = document.getElementById('printBtn');
+            const listHint = document.getElementById('listHint');
+            
+            if (isModel1) {
+                formM1.style.display = 'block';
+                formM2.style.display = 'none';
+                // Estilos botões e bordas para combinar com M1
+                actionSidebar.classList.replace('border-t-[#5c3d2e]', 'border-t-[#1b4284]');
+                printBtn.className = "w-full py-4 bg-[#1b4284] hover:bg-[#15346a] text-white rounded-xl font-bold text-lg shadow-xl shadow-blue-900/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-3";
+                listHint.textContent = "Cole um nome por linha.";
+            } else {
+                formM1.style.display = 'none';
+                formM2.style.display = 'block';
+                // Estilos botões e bordas para combinar com M2
+                actionSidebar.classList.replace('border-t-[#1b4284]', 'border-t-[#5c3d2e]');
+                printBtn.className = "w-full py-4 bg-gradient-to-r from-[#5c3d2e] to-[#7a513d] hover:from-[#4a3024] hover:to-[#5c3d2e] text-white rounded-xl font-bold text-lg shadow-xl shadow-[#5c3d2e]/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-3";
+                listHint.textContent = "O sistema gerará a frente e o verso automaticamente.";
+            }
+        }
+
+        // Leitores de imagem para Modelo 2
         document.getElementById('logoInput').addEventListener('change', function(e) {
             if (e.target.files[0]) {
                 const reader = new FileReader();
@@ -461,8 +741,6 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras e quiches
                 reader.readAsDataURL(e.target.files[0]);
             }
         });
-
-        // Leitor de imagem para Fundo Personalizado
         document.getElementById('bgInput').addEventListener('change', function(e) {
             if (e.target.files[0]) {
                 const reader = new FileReader();
@@ -470,145 +748,258 @@ Salgados: croissants com e sem recheio, folhados com recheio, frituras e quiches
                 reader.readAsDataURL(e.target.files[0]);
             }
         });
-
-        // Atualiza a fonte do select dinamicamente para o usuário ver o estilo no próprio select
         document.getElementById('studentFont').addEventListener('change', function(e) {
             this.style.fontFamily = this.value;
         });
 
+        // ==========================================
+        // ARTE GEOMÉTRICA MODELO 1 (Direita) - Exata Pixel por Pixel
+        // ==========================================
+        function getM1RightOrnamentSVG() {
+            return `
+            <svg class="m1-right-ornament" viewBox="0 0 160 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                
+                <!-- Borda direita extrema: Pequenas Meia-luas amarelas -->
+                <g fill="#f7b024">
+                    ${Array.from({length: 40}).map((_, i) => `<path d="M160 ${i*20} A 10 10 0 0 0 160 ${i*20 + 20} Z" />`).join('')}
+                </g>
+
+                <!-- Coluna Principal (Formas Geométricas baseadas na imagem) -->
+                <g transform="translate(20, 0)">
+                    
+                    <!-- BLOCO 1 (Topo) -->
+                    <path d="M100 0 A 45 45 0 0 0 10 0 Z" fill="#f7b024" transform="translate(10, 45) rotate(-90 45 0)" /> <!-- Amarelo esq -->
+                    <path d="M80 0 A 45 45 0 0 0 80 90 Z" fill="#1b4284" transform="translate(20, 10)" /> <!-- Azul Dir -->
+                    
+                    <!-- BLOCO 2 -->
+                    <circle cx="55" cy="120" r="35" fill="#f7b024"/> <!-- Amarelo -->
+                    <path d="M90 90 A 45 45 0 0 0 90 180 Z" fill="#1b4284" transform="translate(10, 20)" /> <!-- Azul Dir -->
+
+                    <!-- BLOCO 3 -->
+                    <circle cx="70" cy="230" r="45" fill="#1b4284"/> <!-- Azul -->
+                    <path d="M70 280 A 45 45 0 0 0 70 190 Z" fill="#f7b024" transform="rotate(180 70 235)" opacity="0.9"/> <!-- Amarelo sobre azul (simulação corte) -->
+                    
+                    <!-- BLOCO 4 -->
+                    <path d="M20 310 A 45 45 0 0 0 110 310 Z" fill="#1b4284"/> <!-- Azul Baixo -->
+                    
+                    <!-- BLOCO 5 -->
+                    <path d="M0 380 A 50 50 0 0 0 0 480 Z" fill="#f7b024" transform="rotate(180 0 430) translate(-30, 0)"/> <!-- Amarelo Esq -->
+                    <circle cx="85" cy="430" r="35" fill="#f7b024"/> <!-- Amarelo -->
+                    
+                    <!-- BLOCO 6 -->
+                    <circle cx="55" cy="520" r="40" fill="#1b4284"/> <!-- Azul Esq -->
+                    <circle cx="105" cy="505" r="25" fill="#f7b024"/> <!-- Amarelo Dir -->
+                    
+                    <!-- BLOCO 7 -->
+                    <path d="M15 600 A 45 45 0 0 0 105 600 Z" fill="#1b4284"/> <!-- Azul Baixo -->
+                    <path d="M105 550 A 30 30 0 0 0 105 610 Z" fill="#f7b024"/> <!-- Amarelo Dir -->
+
+                    <!-- BLOCO 8 (Fundo) -->
+                    <circle cx="65" cy="680" r="40" fill="#1b4284"/> <!-- Azul -->
+                    <path d="M65 725 A 40 40 0 0 0 65 645 Z" fill="#f7b024" transform="rotate(180 65 685)" opacity="0.9"/> <!-- Amarelo corte base -->
+
+                    <path d="M25 760 A 40 40 0 0 0 105 760 Z" fill="#1b4284"/> <!-- Azul base corte final -->
+                </g>
+            </svg>
+            `;
+        }
+
+        // ==========================================
+        // GERAÇÃO PRINCIPAL
+        // ==========================================
         function generateAndPrint() {
             const namesText = document.getElementById('namesList').value;
             const names = namesText.split('\n').map(n => n.trim()).filter(n => n.length > 0);
 
             if (names.length === 0) {
                 showToast("Por favor, insira a lista de alunos na coluna da direita.");
-                // Destaque visual no textarea
                 const textarea = document.getElementById('namesList');
                 textarea.classList.add('border-red-400', 'bg-red-50');
                 setTimeout(() => textarea.classList.remove('border-red-400', 'bg-red-50'), 2000);
                 return;
             }
 
-            // Captura de Campos de Texto
-            const courseTitle = document.getElementById('courseTitle').value;
-            const dateText = document.getElementById('dateText').value;
-            const workloadText = document.getElementById('workloadText').value;
-            
-            const sig1Name = document.getElementById('sig1Name').value;
-            const sig1Role = document.getElementById('sig1Role').value;
-            const sig2Name = document.getElementById('sig2Name').value;
-            const sig2Role = document.getElementById('sig2Role').value;
-
-            // Captura de Estilos
-            const selectedOverlayColor = document.getElementById('overlayColor').value;
-            const selectedFont = document.getElementById('studentFont').value;
-
-            // Tratamento do conteúdo programático para criar os LIs
-            const programText = document.getElementById('programContent').value;
-            const programItems = programText.split('\n').filter(p => p.trim() !== '');
-            const ulContent = programItems.map(item => `<li>${item}</li>`).join('');
-
-            // Imagens
-            const logoSrc = uploadedLogo || 'logo.png';
-            const bgDiv = uploadedBg 
-                ? `<div class="custom-bg" style="background-image: url('${uploadedBg}')"></div>` 
-                : `<div class="certificate-bg"></div>`;
-
-            // Bloco de cabeçalho padrão (usado na frente e no verso)
-            const headerHTML = `
-                <div class="logo-container">
-                    <img src="${logoSrc}" class="logo-img" alt="IMAC Logo" onerror="this.src='https://placehold.co/200x80/e6d5c3/5c3d2e?text=IMAC+LOGO&font=Montserrat'">
-                    <div class="cnpj-text text-center">IMAC Indústria de Massas Congeladas<br>CNPJ: 03.523.769/0001-82</div>
-                </div>
-            `;
-
+            const selectedModel = document.querySelector('input[name="certModel"]:checked').value;
             const printArea = document.getElementById('printArea');
             printArea.innerHTML = '';
 
-            names.forEach(name => {
-                
-                // --- PÁGINA 1: FRENTE ---
-                // Aplica a cor do fundo e a fonte escolhidas dinamicamente
-                const frontPage = `
-                    <div class="certificate-page">
-                        ${bgDiv}
-                        <div class="certificate-overlay" style="background-color: ${selectedOverlayColor};">
-                            ${headerHTML}
+            // LOGO PADRÃO IMAC EM SVG (Usado no Modelo 1 e Fallback do M2)
+            const logoIMAC_SVG = `
+                <svg viewBox="0 0 150 50" class="m1-logo-img" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:100%;">
+                    <text x="0" y="40" font-family="Montserrat" font-weight="900" font-size="38" fill="#1b4284">IMAC</text>
+                    <circle cx="85" cy="15" r="8" fill="#f7b024"/>
+                    <path d="M81 13 A 1.5 1.5 0 0 0 83 13 M87 13 A 1.5 1.5 0 0 0 89 13" stroke="#1b4284" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M82 17 Q85 20 88 17" stroke="#1b4284" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                </svg>
+            `;
+
+            if (selectedModel === 'modelo1') {
+                // ==========================
+                // DADOS MODELO 1
+                // ==========================
+                const courseName = document.getElementById('m1-courseName').value;
+                const completionDate = document.getElementById('m1-completionDate').value;
+                const companyName = document.getElementById('m1-companyName').value;
+                const durationText = document.getElementById('m1-durationText').value;
+                const sig1Name = document.getElementById('m1-sig1Name').value;
+                const sig1Role = document.getElementById('m1-sig1Role').value;
+                const sig2Name = document.getElementById('m1-sig2Name').value;
+                const sig2Role = document.getElementById('m1-sig2Role').value;
+
+                names.forEach(name => {
+                    const pageHTML = `
+                        <div class="cert-m1-page">
                             
-                            <h1 class="cert-title">CERTIFICADO</h1>
-                            <h2 class="cert-course">${courseTitle}</h2>
-                            
-                            <p class="cert-outorgado">OUTORGADO A</p>
-                            <h3 class="cert-student" style="font-family: ${selectedFont};">${name}</h3>
-                            
-                            <div class="cert-details">
-                                <p>${dateText}</p>
-                                <p>${workloadText}</p>
+                            <!-- Elementos de Fundo -->
+                            <div class="m1-bg-elements">
+                                <div class="m1-bg-circle-large"></div>
+                                <div class="m1-bg-dots"></div>
+                                <svg class="m1-bg-triangle" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <polygon points="0,100 100,100 0,0" fill="#f0f3f8" />
+                                    <line x1="10" y1="90" x2="90" y2="90" stroke="#d5dbe4" stroke-width="1"/>
+                                    <line x1="10" y1="80" x2="80" y2="80" stroke="#d5dbe4" stroke-width="1"/>
+                                    <line x1="10" y1="70" x2="70" y2="70" stroke="#d5dbe4" stroke-width="1"/>
+                                    <line x1="10" y1="60" x2="60" y2="60" stroke="#d5dbe4" stroke-width="1"/>
+                                </svg>
                             </div>
 
-                            <div class="cert-signatures">
-                                <div class="sig-block">
-                                    <div class="sig-line"></div>
-                                    <p class="sig-name">${sig1Name}</p>
-                                    <p class="sig-role">${sig1Role}</p>
-                                </div>
+                            ${getM1RightOrnamentSVG()}
+
+                            <!-- Conteúdo Principal -->
+                            <div class="m1-content-container">
                                 
-                                <div class="sig-block">
-                                    <div class="sig-line"></div>
-                                    <p class="sig-name sig-participant" style="text-transform: uppercase; font-size: 10px;">${name}</p>
-                                    <p class="sig-role sig-participant">Participante</p>
+                                <div class="m1-logo-container">
+                                    ${logoIMAC_SVG}
                                 </div>
 
-                                <div class="sig-block">
-                                    <div class="sig-line"></div>
-                                    <p class="sig-name">${sig2Name}</p>
-                                    <p class="sig-role">${sig2Role}</p>
+                                <h1 class="m1-title-main">CERTIFICADO</h1>
+                                <h2 class="m1-title-sub">DE CONCLUSÃO</h2>
+
+                                <p class="m1-certify-text">Certificamos que o profissional:</p>
+                                
+                                <h3 class="m1-student-name">${name}</h3>
+                                <div class="m1-name-line"></div>
+
+                                <p class="m1-body-text">
+                                    Participou do curso de <strong>${courseName}</strong> em ${completionDate} na<br>
+                                    <strong>${companyName}</strong> com<br>
+                                    duração de ${durationText}.
+                                </p>
+
+                                <div class="m1-signatures-area">
+                                    <div class="m1-sig-block">
+                                        <div class="m1-sig-line"></div>
+                                        <p class="m1-sig-name">${sig1Name}</p>
+                                        <p class="m1-sig-role">${sig1Role}</p>
+                                    </div>
+                                    <div class="m1-sig-block">
+                                        <div class="m1-sig-line"></div>
+                                        <p class="m1-sig-name">${sig2Name}</p>
+                                        <p class="m1-sig-role">${sig2Role}</p>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
+                    `;
+                    printArea.insertAdjacentHTML('beforeend', pageHTML);
+                });
+
+            } else {
+                // ==========================
+                // DADOS MODELO 2
+                // ==========================
+                const courseTitle = document.getElementById('m2-courseTitle').value;
+                const dateText = document.getElementById('m2-dateText').value;
+                const workloadText = document.getElementById('m2-workloadText').value;
+                const sig1Name = document.getElementById('m2-sig1Name').value;
+                const sig1Role = document.getElementById('m2-sig1Role').value;
+                const sig2Name = document.getElementById('m2-sig2Name').value;
+                const sig2Role = document.getElementById('m2-sig2Role').value;
+                
+                const selectedOverlayColor = document.getElementById('overlayColor').value;
+                const selectedFont = document.getElementById('studentFont').value;
+                const programText = document.getElementById('m2-programContent').value;
+                const programItems = programText.split('\n').filter(p => p.trim() !== '');
+                const ulContent = programItems.map(item => `<li>${item}</li>`).join('');
+
+                const logoHTML = uploadedLogo 
+                    ? `<img src="${uploadedLogo}" class="logo-img" alt="IMAC Logo">`
+                    : logoIMAC_SVG.replace('class="m1-logo-img"', 'class="logo-img" style="height:50px; margin-bottom:5px;"'); // Ajusta a classe pro M2
+                
+                const bgDiv = uploadedBg 
+                    ? `<div class="custom-bg" style="background-image: url('${uploadedBg}')"></div>` 
+                    : `<div class="certificate-bg"></div>`;
+
+                const headerHTML = `
+                    <div class="logo-container">
+                        ${logoHTML}
+                        <div class="cnpj-text text-center mt-1">IMAC Indústria de Massas Congeladas<br>CNPJ: 03.523.769/0001-82</div>
                     </div>
                 `;
 
-                // --- PÁGINA 2: VERSO (CONTEÚDO PROGRAMÁTICO) ---
-                const backPage = `
-                    <div class="certificate-page">
-                        ${bgDiv}
-                        <div class="certificate-overlay" style="background-color: ${selectedOverlayColor};">
-                            ${headerHTML}
-                            
-                            <h2 class="back-title">Conteúdo Programático</h2>
-                            
-                            <div class="back-content">
-                                <ul>
-                                    ${ulContent}
-                                </ul>
+                names.forEach(name => {
+                    const frontPage = `
+                        <div class="certificate-page">
+                            ${bgDiv}
+                            <div class="certificate-overlay" style="background-color: ${selectedOverlayColor};">
+                                ${headerHTML}
+                                <h1 class="cert-title">CERTIFICADO</h1>
+                                <h2 class="cert-course">${courseTitle}</h2>
+                                <p class="cert-outorgado">OUTORGADO A</p>
+                                <h3 class="cert-student" style="font-family: ${selectedFont};">${name}</h3>
+                                <div class="cert-details">
+                                    <p>${dateText}</p>
+                                    <p>${workloadText}</p>
+                                </div>
+                                <div class="cert-signatures">
+                                    <div class="sig-block">
+                                        <div class="sig-line"></div>
+                                        <p class="sig-name">${sig1Name}</p>
+                                        <p class="sig-role">${sig1Role}</p>
+                                    </div>
+                                    <div class="sig-block">
+                                        <div class="sig-line"></div>
+                                        <p class="sig-name sig-participant" style="text-transform: uppercase; font-size: 10px;">${name}</p>
+                                        <p class="sig-role sig-participant">Participante</p>
+                                    </div>
+                                    <div class="sig-block">
+                                        <div class="sig-line"></div>
+                                        <p class="sig-name">${sig2Name}</p>
+                                        <p class="sig-role">${sig2Role}</p>
+                                    </div>
+                                </div>
                             </div>
-                            
-                            <div style="flex-grow: 1;"></div> 
                         </div>
-                    </div>
-                `;
+                    `;
 
-                printArea.insertAdjacentHTML('beforeend', frontPage + backPage);
-            });
+                    const backPage = `
+                        <div class="certificate-page">
+                            ${bgDiv}
+                            <div class="certificate-overlay" style="background-color: ${selectedOverlayColor};">
+                                ${headerHTML}
+                                <h2 class="back-title">Conteúdo Programático</h2>
+                                <div class="back-content">
+                                    <ul>${ulContent}</ul>
+                                </div>
+                                <div style="flex-grow: 1;"></div> 
+                            </div>
+                        </div>
+                    `;
+                    printArea.insertAdjacentHTML('beforeend', frontPage + backPage);
+                });
+            }
 
-            // Chama a impressão após dar tempo para o DOM renderizar
+            // Dispara impressão
             setTimeout(() => { window.print(); }, 500);
         }
 
-        // Evento de load da página para controlar o Splash Screen
         window.addEventListener('load', () => {
-            // Mantém a tela de abertura por 2 segundos (reduzido para ficar mais dinâmico)
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
-                // Adiciona a classe que faz a transição (fade out suave)
                 splash.classList.add('hide-splash');
-                
-                // Oculta completamente após a animação de fade (0.8s) para liberar os cliques na tela
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                }, 800);
-            }, 2000);
+                setTimeout(() => { splash.style.display = 'none'; }, 800);
+            }, 1800);
         });
     </script>
 </body>
